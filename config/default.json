@@ -1,0 +1,4 @@
+{
+  "port": 5000,
+  "mongoUrl": "mongodb+srv://focus:12345@cluster0.3ygjt.mongodb.net/calendar?retryWrites=true&w=majority"
+}
