@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AddressForm from './AddressForm/AddressForm';
 import {
@@ -7,9 +7,9 @@ import {
   deleteAddressTC,
   updateLinkToMapsTC,
   setStartPointTC,
+  setDateTC,
 } from '../Redux/address-reducer';
 import StartPoint from './StartPoint/StartPoint';
-import { dateAPI } from '../../api/api';
 
 // Address component
 const AddressData = (props) => {
@@ -37,6 +37,10 @@ const AddressData = (props) => {
     props.updateLinkToMapsTC(props.selectedDate);
   };
 
+  // useEffect(() => {
+  //   props.setDateTC(props.selectedDate);
+  // }, [props.selectedDate]);
+
   return (
     <div>
       <h3>{props.selectedDate}</h3>
@@ -60,7 +64,7 @@ const AddressData = (props) => {
           </a>
         )}
       </div>
-      <button onClick={() => dateAPI.getDate()}>Click me</button>
+      {/* <button onClick={() => dateAPI.newDate(props.selectedDate, 'Amrumer str. 25, 13353')}>Click me</button> */}
     </div>
   );
 };
@@ -78,4 +82,5 @@ export default connect(mapStateToProps, {
   deleteAddressTC,
   updateLinkToMapsTC,
   setStartPointTC,
-})(AddressData, addNewAddressTC);
+  setDateTC,
+})(AddressData);

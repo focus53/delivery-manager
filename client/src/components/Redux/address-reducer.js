@@ -1,9 +1,12 @@
+import { dateAPI } from '../../api/api';
+
 const SELECTED_DATE = 'SELECTED_DATE';
 const ADD_NEW_ADDRESS = 'ADD_NEW_ADDRESS';
 const HAVE_ADDRESS = 'HAVE_ADDRESS';
 const DELETE_ADDRESS = 'DELETE_ADDRESS';
 const UPDATE_LINK_TO_MAPS = 'UPDATE_LINK_TO_MAPS';
 const SET_START_POINT = 'SET_START_POINT';
+const SET_ADDRESSES = 'SET_ADDRESSES';
 
 const initialState = {
   baseURL: 'https://www.google.com/maps/dir/',
@@ -31,6 +34,9 @@ const updateLinkToMapsAC = (payload) => {
 };
 const setStartPointAC = (payload) => {
   return { type: SET_START_POINT, payload };
+};
+const setAddressesAC = (payload) => {
+  return { type: SET_ADDRESSES, payload };
 };
 
 // Reducer
@@ -78,7 +84,7 @@ const addressReducer = (state = initialState, action) => {
             }
             return obj;
           }),
-        ],
+        ].filter((el) => el.addresses.length >= 1),
       };
 
     case UPDATE_LINK_TO_MAPS:
@@ -101,26 +107,41 @@ const addressReducer = (state = initialState, action) => {
     case SET_START_POINT:
       return { ...state, startURL: `${state.baseURL}${action.payload.startValue}` };
 
+    case SET_ADDRESSES:
+      return {
+        ...state,
+        routing: action.payload.data.date.map((obj) => ({ date: obj.date, addresses: obj.addresses })),
+      };
+
     default:
       return state;
   }
 };
 
 // Thunk creators
+export const setDateTC = (selectedDate) => async (dispatch) => {
+  const getDate = await dateAPI.getDate(selectedDate);
+  dispatch(setAddressesAC(getDate));
+};
+
 export const selectDateTC = (date) => (dispatch) => {
   dispatch(selectedDateAC(date));
 };
 
-export const addNewAddressTC = (formData, selectedDate) => (dispatch) => {
-  dispatch(addNewAddressAC({ formData, selectedDate }));
+export const addNewAddressTC = (formData, selectedDate) => async (dispatch) => {
+  const response = await dateAPI.newDate(selectedDate, formData);
+  dispatch(addNewAddressAC({ selectedDate: response.data.date, formData: response.data.address }));
 };
 
 export const haveAddressTC = (date) => (dispatch) => {
   dispatch(haveAddressAC(date));
 };
 
-export const deleteAddressTC = (index, selectedDate) => (dispatch) => {
-  dispatch(deleteAddressAC({ index, selectedDate }));
+export const deleteAddressTC = (index, selectedDate) => async (dispatch) => {
+  const response = await dateAPI.deleteDate(index, selectedDate);
+  if (response) {
+    dispatch(deleteAddressAC({ index, selectedDate }));
+  }
 };
 
 export const updateLinkToMapsTC = (selectedDate) => (dispatch) => {
