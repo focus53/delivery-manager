@@ -8,8 +8,13 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "react": "^17.0.1",
+    "react-calendar": "^3.2.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "react-scripts": "4.0.0",
+    "redux": "^4.0.5",
+    "redux-form": "^8.3.7",
+    "redux-thunk": "^2.3.0",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -37,13 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "google-map-react": "^2.1.8",
-    "google-maps-react": "^2.0.6",
-    "react-calendar": "^3.1.0",
-    "react-redux": "^7.2.2",
-    "redux": "^4.0.5",
-    "redux-form": "^8.3.6",
-    "redux-thunk": "^2.3.0"
-  }
+  "devDependencies": {}
 }
