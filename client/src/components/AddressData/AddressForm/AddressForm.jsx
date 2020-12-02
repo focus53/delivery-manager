@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 // Input form for address
 const AddressFrom = (props) => {
   return (
+<<<<<<< HEAD
     <div>
       <form onSubmit={props.handleSubmit}>
         <div>
@@ -18,6 +19,26 @@ const AddressFrom = (props) => {
         <button type="submit">Submit</button>
       </form>
     </div>
+=======
+    <form onSubmit={(e) => props.handleSubmit(e, street, streetNumber, postCode)}>
+      <Input.Group size="small">
+        <Row gutter={[5, 10]}>
+          <Col span={12}>
+            <Input placeholder="Street" value={street} onChange={(e) => setStreet(e.target.value)} />
+          </Col>
+          <Col span={5}>
+            <Input placeholder="Number" value={streetNumber} onChange={(e) => setStreetNumber(e.target.value)} />
+          </Col>
+          <Col span={7}>
+            <Input placeholder="Postcode" value={postCode} onChange={(e) => setPostCode(e.target.value)} />
+          </Col>
+        </Row>
+        <Button type="primary" htmlType="submit">
+          Submit <SendOutlined />
+        </Button>
+      </Input.Group>
+    </form>
+>>>>>>> 35db288... Version 1.0.11
   );
 };
 
