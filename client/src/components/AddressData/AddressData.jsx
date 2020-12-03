@@ -14,9 +14,10 @@ import StartPoint from './StartPoint/StartPoint';
 =======
 import { Row, Col, Divider, Collapse, Button } from 'antd';
 import Start from './Start/Start';
-import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { MapsLink } from './MapsLink/MapsLink';
 import { CollapseHeader } from './CollapseHeader/CollapseHeader';
+import { Addresses } from './Addresses/Addresses';
 
 const { Panel } = Collapse;
 
@@ -116,25 +117,13 @@ const AddressData = (props) => {
                   }
                   key="1"
                 >
-                  <p>
-                    {props.routing.some((el) => el.date === props.selectedDate) && (
-                      <p>
-                        {props.routing.find((el) => el.date === props.selectedDate).ADK &&
-                          props.routing
-                            .find((el) => el.date === props.selectedDate)
-                            .ADK.map((el, index) => (
-                              <div key={index}>
-                                {`${index + 1}: ${el}`}{' '}
-                                <Button
-                                  icon={<MinusOutlined />}
-                                  onClick={() => deleteAddress(index, 'ADK')}
-                                  size="small"
-                                ></Button>
-                              </div>
-                            ))}
-                      </p>
-                    )}
-                  </p>
+                  <Addresses
+                    routing={props.routing}
+                    selectedDate={props.selectedDate}
+                    deleteAddress={deleteAddress}
+                    storageArea={'ADK'}
+                  />
+
                   <MapsLink
                     selectedDate={props.selectedDate}
                     routing={props.routing}
@@ -147,25 +136,12 @@ const AddressData = (props) => {
                   }
                   key="2"
                 >
-                  <p>
-                    {props.routing.some((el) => el.date === props.selectedDate) && (
-                      <p>
-                        {props.routing.find((el) => el.date === props.selectedDate).JAC &&
-                          props.routing
-                            .find((el) => el.date === props.selectedDate)
-                            .JAC.map((el, index) => (
-                              <div key={index}>
-                                {`${index + 1}: ${el}`}{' '}
-                                <Button
-                                  icon={<MinusOutlined />}
-                                  onClick={() => deleteAddress(index, 'JAC')}
-                                  size="small"
-                                ></Button>
-                              </div>
-                            ))}
-                      </p>
-                    )}
-                  </p>
+                  <Addresses
+                    routing={props.routing}
+                    selectedDate={props.selectedDate}
+                    deleteAddress={deleteAddress}
+                    storageArea={'JAC'}
+                  />
                   <MapsLink
                     selectedDate={props.selectedDate}
                     routing={props.routing}
@@ -178,25 +154,12 @@ const AddressData = (props) => {
                   }
                   key="3"
                 >
-                  <p>
-                    {props.routing.some((el) => el.date === props.selectedDate) && (
-                      <p>
-                        {props.routing.find((el) => el.date === props.selectedDate).VER &&
-                          props.routing
-                            .find((el) => el.date === props.selectedDate)
-                            .VER.map((el, index) => (
-                              <div key={index}>
-                                {`${index + 1}: ${el}`}{' '}
-                                <Button
-                                  icon={<MinusOutlined />}
-                                  onClick={() => deleteAddress(index, 'VER')}
-                                  size="small"
-                                ></Button>
-                              </div>
-                            ))}
-                      </p>
-                    )}
-                  </p>
+                  <Addresses
+                    routing={props.routing}
+                    selectedDate={props.selectedDate}
+                    deleteAddress={deleteAddress}
+                    storageArea={'VER'}
+                  />
                   <MapsLink
                     selectedDate={props.selectedDate}
                     routing={props.routing}
