@@ -9,7 +9,6 @@ export const MapsLink = (props) => {
         href={
           props.routing.some((el) => el.date === props.selectedDate) &&
           props.routing.find((el) => {
-            debugger;
             return el.date === props.selectedDate;
           })[`${props.storageLinkMethod}`]
         }

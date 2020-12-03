@@ -9,6 +9,7 @@ const SET_START_POINT = 'SET_START_POINT';
 const SET_ADDRESSES = 'SET_ADDRESSES';
 
 const initialState = {
+  storages: ['ADK', 'JAC', 'VER'],
   baseURL: 'https://www.google.com/maps/dir/',
   startURL: '',
   selectedDate: '',
