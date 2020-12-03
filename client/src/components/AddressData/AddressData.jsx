@@ -16,6 +16,7 @@ import { Row, Col, Divider, Collapse, Button } from 'antd';
 import Start from './Start/Start';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { MapsLink } from './MapsLink/MapsLink';
+import { CollapseHeader } from './CollapseHeader/CollapseHeader';
 
 const { Panel } = Collapse;
 
@@ -23,6 +24,7 @@ function callback(key) {
   console.log(key);
 }
 
+<<<<<<< HEAD
 const CollapseHeader = (props) => {
   return (
     <Row gutter={10}>
@@ -38,6 +40,8 @@ const CollapseHeader = (props) => {
 };
 >>>>>>> 79ae319... refactor: link to maps
 
+=======
+>>>>>>> 67b4703... refactor: CollapseHeader
 // Address component
 const AddressData = (props) => {
   const [addMode, setAddMode] = useState(false);
