@@ -9,7 +9,34 @@ import {
   setStartPointTC,
   setDateTC,
 } from '../Redux/address-reducer';
+<<<<<<< HEAD
 import StartPoint from './StartPoint/StartPoint';
+=======
+import { Row, Col, Divider, Collapse, Button } from 'antd';
+import Start from './Start/Start';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { MapsLink } from './MapsLink/MapsLink';
+
+const { Panel } = Collapse;
+
+function callback(key) {
+  console.log(key);
+}
+
+const CollapseHeader = (props) => {
+  return (
+    <Row gutter={10}>
+      <Col span={8}>{props.storageArea}</Col>
+      <Col span={4} offset={12}>
+        {props.routing.some((el) => el.date === props.selectedDate)
+          ? props.routing.find((el) => el.date === props.selectedDate)[props.storageArea] &&
+            props.routing.find((el) => el.date === props.selectedDate)[props.storageArea].length
+          : ''}
+      </Col>
+    </Row>
+  );
+};
+>>>>>>> 79ae319... refactor: link to maps
 
 // Address component
 const AddressData = (props) => {
@@ -104,16 +131,11 @@ const AddressData = (props) => {
                       </p>
                     )}
                   </p>
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={
-                      props.routing.some((el) => el.date === props.selectedDate) &&
-                      props.routing.find((el) => el.date === props.selectedDate).mapsLinkADK
-                    }
-                  >
-                    Link to Google Maps
-                  </a>
+                  <MapsLink
+                    selectedDate={props.selectedDate}
+                    routing={props.routing}
+                    storageLinkMethod={'mapsLinkADK'}
+                  />
                 </Panel>
                 <Panel
                   header={
@@ -140,17 +162,11 @@ const AddressData = (props) => {
                       </p>
                     )}
                   </p>
-
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={
-                      props.routing.some((el) => el.date === props.selectedDate) &&
-                      props.routing.find((el) => el.date === props.selectedDate).mapsLinkJAC
-                    }
-                  >
-                    Link to Google Maps
-                  </a>
+                  <MapsLink
+                    selectedDate={props.selectedDate}
+                    routing={props.routing}
+                    storageLinkMethod={'mapsLinkJAC'}
+                  />
                 </Panel>
                 <Panel
                   header={
@@ -177,16 +193,11 @@ const AddressData = (props) => {
                       </p>
                     )}
                   </p>
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={
-                      props.routing.some((el) => el.date === props.selectedDate) &&
-                      props.routing.find((el) => el.date === props.selectedDate).mapsLinkVER
-                    }
-                  >
-                    Link to Google Maps
-                  </a>
+                  <MapsLink
+                    selectedDate={props.selectedDate}
+                    routing={props.routing}
+                    storageLinkMethod={'mapsLinkADK'}
+                  />
                 </Panel>
               </Collapse>
             </Col>
