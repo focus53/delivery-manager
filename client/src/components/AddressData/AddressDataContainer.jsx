@@ -88,7 +88,7 @@ const AddressDataContainer = (props) => {
           <Row gutter={[5, 5]}>
             {addMode && (
               <div>
-                <Start onChange={changeHandler} start={start} />
+                <Start onChange={changeHandler} start={start} storages={props.storages} />
                 <AddressForm handleSubmit={handleSubmit} />
               </div>
             )}

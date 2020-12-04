@@ -4,9 +4,9 @@ import { Radio } from 'antd';
 const Start = (props) => {
   return (
     <Radio.Group onChange={props.onChange} value={props.start}>
-      <Radio value={'ADK'}>ADK</Radio>
-      <Radio value={'JAC'}>JAC</Radio>
-      <Radio value={'VER'}>VER</Radio>
+      {props.storages.map((el) => {
+        return <Radio value={el}>{el}</Radio>;
+      })}
     </Radio.Group>
   );
 };
