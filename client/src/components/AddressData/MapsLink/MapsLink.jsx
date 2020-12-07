@@ -7,10 +7,14 @@ export const MapsLink = (props) => {
         target="_blank"
         rel="noreferrer"
         href={
-          props.routing.some((el) => el.date === props.selectedDate) &&
           props.routing.find((el) => {
-            return el.date === props.selectedDate;
-          })[`${props.storageLinkMethod}`]
+            if (el.mapsLinks) {
+              return el.date === props.selectedDate;
+            }
+            return false;
+          })
+            ? props.routing.find((el) => el.date === props.selectedDate).mapsLinks[props.storageLinkMethod]
+            : props.defaultLink
         }
       >
         Link to Google Maps

@@ -3,7 +3,10 @@ import axios from 'axios';
 export const dateAPI = {
   getDate() {
     return axios.get(`/api/date`).then((res) => {
-      return res;
+      if (res.status === 200) {
+        return res;
+      }
+      return;
     });
   },
   newDate(date, address) {

@@ -73,7 +73,8 @@ const AddressDataContainer = (props) => {
                     <MapsLink
                       selectedDate={props.selectedDate}
                       routing={props.routing}
-                      storageLinkMethod={`mapsLink${el}`}
+                      storageLinkMethod={`${el}`}
+                      defaultLink={props.mapsLink[el]}
                     />
                   </Panel>
                 ))}
@@ -105,6 +106,7 @@ const mapStateToProps = (store) => {
     routing: store.addressReducer.routing,
     mapsLink: store.addressReducer.mapsLink,
     storages: store.addressReducer.storages,
+    defaultLinks: store.mapsLink,
   };
 };
 

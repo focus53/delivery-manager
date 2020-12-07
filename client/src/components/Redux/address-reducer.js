@@ -94,6 +94,7 @@ const addressReducer = (state = initialState, action) => {
         ...state,
         routing: [
           ...state.routing.map((obj) => {
+<<<<<<< HEAD
             if (obj.date === action.payload.selectedDate) {
               obj.addresses.forEach((element) => {
                 state.startURL = `${state.startURL}/${element}`;
@@ -101,6 +102,19 @@ const addressReducer = (state = initialState, action) => {
               return { ...obj, mapsURL: `${state.startURL}` };
             }
             return obj;
+=======
+            let mapsLinks = {};
+            state.storages.forEach((element) => {
+              if (obj[element]) {
+                mapsLinks[element] =
+                  state.mapsLink[element] +
+                  obj[element].reduce((acc, currentVal) => {
+                    return `${acc}/${currentVal}`;
+                  }, '');
+              }
+            });
+            return { ...obj, mapsLinks };
+>>>>>>> 4406587... refactor: update reducer + links
           }),
         ],
       };
@@ -111,7 +125,32 @@ const addressReducer = (state = initialState, action) => {
     case SET_ADDRESSES:
       return {
         ...state,
+<<<<<<< HEAD
         routing: action.payload.data.date.map((obj) => ({ date: obj.date, addresses: obj.addresses })),
+=======
+        routing: action.payload.data.date.map((obj) => {
+          return obj;
+        }),
+      };
+
+    case UPDATE_LINK_TO_MAPS:
+      return {
+        ...state,
+        routing: [
+          ...state.routing.map((obj) => {
+            if (obj.date === action.payload.selectedDate) {
+              let newLink =
+                state.mapsLink[action.payload.storage] +
+                obj[action.payload.storage].reduce((acc, currentVal) => {
+                  return `${acc}/${currentVal}`;
+                }, '');
+
+              return { ...obj, mapsLinks: { ...obj.mapsLinks, [action.payload.storage]: newLink } };
+            }
+            return obj;
+          }),
+        ],
+>>>>>>> 4406587... refactor: update reducer + links
       };
 
     default:
@@ -129,9 +168,16 @@ export const selectDateTC = (date) => (dispatch) => {
   dispatch(selectedDateAC(date));
 };
 
+<<<<<<< HEAD
 export const addNewAddressTC = (formData, selectedDate) => async (dispatch) => {
   const response = await dateAPI.newDate(selectedDate, formData);
   dispatch(addNewAddressAC({ selectedDate: response.data.date, formData: response.data.address }));
+=======
+export const addNewAddressTC = (address, selectedDate, storage) => async (dispatch) => {
+  const response = await dateAPI.newDate(selectedDate, address, storage);
+  await dispatch(addNewAddressAC({ selectedDate: response.data.date, address: response.data.address, storage }));
+  dispatch(updateLinkToMapsAC({ selectedDate, storage, address }));
+>>>>>>> 4406587... refactor: update reducer + links
 };
 
 export const haveAddressTC = (date) => (dispatch) => {

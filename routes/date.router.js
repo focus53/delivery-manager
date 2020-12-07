@@ -26,10 +26,13 @@ router.get('/date', async (req, res) => {
 
 router.post('/date', async (req, res) => {
   try {
+<<<<<<< HEAD
     const { date, address } = req.body;
 
+=======
+    const { date, address, storage } = req.body;
+>>>>>>> 4406587... refactor: update reducer + links
     let isExistDate = await Dates.findOne({ date });
-
     if (isExistDate) {
 <<<<<<< HEAD
       isExistDate.addresses.push(address);
@@ -37,31 +40,25 @@ router.post('/date', async (req, res) => {
       return res.status(201).json({ date, address });
 =======
       let toObj = isExistDate.toObject();
-
       if (toObj[storage]) {
         toObj[storage].push(address);
-
         await Dates.updateOne({ date }, { $set: { [storage]: toObj[storage] } });
-
-        console.log('push');
         return res.status(201).json({ date, address, storage });
       }
-      console.log('update');
       await Dates.updateOne({ date }, { $set: { [storage]: [address] } });
       return res.status(201).json({ date, address, storage });
 >>>>>>> 38823f1... refactor: Database + server router
     }
-    console.log(date);
-
     const newDate = await new Dates({ date, [storage]: [address] });
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     const newDate = new Dates({ date, addresses: address });
 =======
 >>>>>>> 38823f1... refactor: Database + server router
+=======
+>>>>>>> 4406587... refactor: update reducer + links
     await newDate.save();
-
-    console.log('new');
     res.status(201).json({ date, address });
   } catch (e) {
     res.status(500).json(e.message);
