@@ -17,6 +17,7 @@ const router = Router();
 router.get('/date', async (req, res) => {
   try {
     const date = await Dates.find({});
+
     res.status(200).json({ date });
   } catch (e) {
     res.status(500).json(e.message);
@@ -27,19 +28,43 @@ router.post('/date', async (req, res) => {
   try {
     const { date, address } = req.body;
 
-    const isExistDate = await Dates.findOne({ date });
+    let isExistDate = await Dates.findOne({ date });
 
     if (isExistDate) {
+<<<<<<< HEAD
       isExistDate.addresses.push(address);
       await isExistDate.save();
       return res.status(201).json({ date, address });
-    }
+=======
+      let toObj = isExistDate.toObject();
 
+      if (toObj[storage]) {
+        toObj[storage].push(address);
+
+        await Dates.updateOne({ date }, { $set: { [storage]: toObj[storage] } });
+
+        console.log('push');
+        return res.status(201).json({ date, address, storage });
+      }
+      console.log('update');
+      await Dates.updateOne({ date }, { $set: { [storage]: [address] } });
+      return res.status(201).json({ date, address, storage });
+>>>>>>> 38823f1... refactor: Database + server router
+    }
+    console.log(date);
+
+    const newDate = await new Dates({ date, [storage]: [address] });
+
+<<<<<<< HEAD
     const newDate = new Dates({ date, addresses: address });
+=======
+>>>>>>> 38823f1... refactor: Database + server router
     await newDate.save();
+
+    console.log('new');
     res.status(201).json({ date, address });
   } catch (e) {
-    res.status(500).json('Something is wrong');
+    res.status(500).json(e.message);
   }
 });
 
