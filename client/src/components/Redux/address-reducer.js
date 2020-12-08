@@ -9,12 +9,21 @@ const SET_START_POINT = 'SET_START_POINT';
 const SET_ADDRESSES = 'SET_ADDRESSES';
 
 const initialState = {
-  storages: ['ADK', 'JAC', 'VER'],
+  storages: ['ADK', 'JAC', 'VER', 'SHR'],
   baseURL: 'https://www.google.com/maps/dir/',
   startURL: '',
   selectedDate: '',
   routing: [],
   haveAddress: [],
+<<<<<<< HEAD
+=======
+  mapsLink: {
+    ADK: 'https://www.google.de/maps/dir/Preishalle+24-Marzahn,+Allee+der+Kosmonauten+26,+12681+Berlin',
+    JAC: 'https://www.google.de/maps/dir/Preishalle24-Reinickendorf,+Jacobsenweg+41,+13509+Berlin',
+    VER: 'https://www.google.de/maps/dir/Preishalle24-Verlorenwasser,+14806+Bad+Belzig',
+    SHR: 'https://www.google.de/maps/dir/Sophie-Charlotten-Straße+1,+14059+Berlin',
+  },
+>>>>>>> c27eb70... refactor: Delete
 };
 
 // Action creators
@@ -79,13 +88,33 @@ const addressReducer = (state = initialState, action) => {
         routing: [
           ...state.routing.map((obj) => {
             if (obj.date === action.payload.selectedDate) {
+<<<<<<< HEAD
               let newObj = { ...obj, addresses: [...obj.addresses] };
               newObj.addresses.splice(action.payload.index, 1);
+=======
+              let newObj = {
+                ...obj,
+                [action.payload.storage]: [...obj[action.payload.storage]],
+              };
+
+              newObj[action.payload.storage].splice(action.payload.index, 1);
+>>>>>>> c27eb70... refactor: Delete
               return newObj;
             }
             return obj;
           }),
+<<<<<<< HEAD
         ].filter((el) => el.addresses.length >= 1),
+=======
+        ].filter((routingEl) => {
+          let newRoutingEl = Object.keys(routingEl).filter((el) =>
+            action.payload.storages.some((strEl) => strEl === el)
+          );
+          return newRoutingEl.some((storagesEl) => routingEl[storagesEl].length >= 1);
+
+          //return (el.ADK && el.ADK.length >= 1) || (el.JAC && el.JAC.length >= 1) || (el.VER && el.VER.length >= 1);
+        }),
+>>>>>>> c27eb70... refactor: Delete
       };
 
     case UPDATE_LINK_TO_MAPS:
@@ -184,10 +213,18 @@ export const haveAddressTC = (date) => (dispatch) => {
   dispatch(haveAddressAC(date));
 };
 
+<<<<<<< HEAD
 export const deleteAddressTC = (index, selectedDate) => async (dispatch) => {
   const response = await dateAPI.deleteDate(index, selectedDate);
   if (response) {
     dispatch(deleteAddressAC({ index, selectedDate }));
+=======
+export const deleteAddressTC = (index, selectedDate, storage, storages) => async (dispatch) => {
+  const response = await dateAPI.deleteDate(index, selectedDate, storage, storages);
+  if (response) {
+    dispatch(deleteAddressAC({ index, selectedDate, storage, storages }));
+    dispatch(updateLinkToMapsAC({ selectedDate, storage }));
+>>>>>>> c27eb70... refactor: Delete
   }
 };
 

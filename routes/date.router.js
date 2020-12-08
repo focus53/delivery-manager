@@ -67,19 +67,39 @@ router.post('/date', async (req, res) => {
 
 router.post('/date/delete_address', async (req, res) => {
   try {
+<<<<<<< HEAD
     const { index, selectedDate } = req.body;
     console.log(index);
+=======
+    const { index, selectedDate, storage, storages } = req.body;
+>>>>>>> c27eb70... refactor: Delete
 
     const existDate = await Dates.findOne({ date: selectedDate });
 
     if (existDate) {
+<<<<<<< HEAD
       if (existDate.addresses.length <= 1) {
+=======
+      let toObjDate = existDate.toObject();
+      toObjDate[storage].splice(index, 1);
+
+      let existingStorages = Object.keys(toObjDate).filter((element) =>
+        storages.some((el) => el === element) ? true : false
+      );
+
+      if (existingStorages.every((element) => toObjDate[element].length === 0)) {
+>>>>>>> c27eb70... refactor: Delete
         await Dates.deleteOne({ date: selectedDate });
 
         return res.status(200).json({ message: 'Date deleted' });
       }
+<<<<<<< HEAD
       await existDate.addresses.splice(index, 1);
       await existDate.save();
+=======
+
+      await Dates.updateOne({ date: selectedDate }, { $set: { [storage]: toObjDate[storage] } });
+>>>>>>> c27eb70... refactor: Delete
       return res.status(200).json({ message: 'Address deleted' });
     }
 

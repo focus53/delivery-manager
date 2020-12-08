@@ -8,6 +8,7 @@ export const CollapseHeader = (props) => {
       <Col span={4} offset={12}>
         {props.routing.some((el) => el.date === props.selectedDate)
           ? props.routing.find((el) => el.date === props.selectedDate)[props.storageArea] &&
+            props.routing.find((el) => el.date === props.selectedDate)[props.storageArea].length > 0 &&
             props.routing.find((el) => el.date === props.selectedDate)[props.storageArea].length
           : ''}
       </Col>

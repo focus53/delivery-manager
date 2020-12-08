@@ -19,7 +19,7 @@ import { Addresses } from './Addresses/Addresses';
 const { Panel } = Collapse;
 
 function callback(key) {
-  console.log(key);
+  return;
 }
 
 // Address component
@@ -40,7 +40,7 @@ const AddressDataContainer = (props) => {
   };
 
   const deleteAddress = (index, storage) => {
-    props.deleteAddressTC(index, props.selectedDate, storage);
+    props.deleteAddressTC(index, props.selectedDate, storage, props.storages);
   };
 
   const changeHandler = (e) => {

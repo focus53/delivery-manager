@@ -14,8 +14,13 @@ export const dateAPI = {
       return res;
     });
   },
+<<<<<<< HEAD
   deleteDate(index, selectedDate) {
     return axios.post('/api/date/delete_address', { index, selectedDate }).then((res) => {
+=======
+  deleteDate(index, selectedDate, storage, storages) {
+    return axios.post('/api/date/delete_address', { index, selectedDate, storage, storages }).then((res) => {
+>>>>>>> c27eb70... refactor: Delete
       return res;
     });
   },
