@@ -7,6 +7,7 @@ const DELETE_ADDRESS = 'DELETE_ADDRESS';
 const UPDATE_LINK_TO_MAPS = 'UPDATE_LINK_TO_MAPS';
 const SET_START_POINT = 'SET_START_POINT';
 const SET_ADDRESSES = 'SET_ADDRESSES';
+const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
 
 const initialState = {
   storages: ['ADK', 'JAC', 'VER', 'SHR'],
@@ -47,6 +48,9 @@ const setStartPointAC = (payload) => {
 };
 const setAddressesAC = (payload) => {
   return { type: SET_ADDRESSES, payload };
+};
+const addNewAddressStorageAC = (payload) => {
+  return { type: ADD_NEW_ADDRESS_STORAGE, payload };
 };
 
 // Reducer
@@ -111,8 +115,6 @@ const addressReducer = (state = initialState, action) => {
             action.payload.storages.some((strEl) => strEl === el)
           );
           return newRoutingEl.some((storagesEl) => routingEl[storagesEl].length >= 1);
-
-          //return (el.ADK && el.ADK.length >= 1) || (el.JAC && el.JAC.length >= 1) || (el.VER && el.VER.length >= 1);
         }),
 >>>>>>> c27eb70... refactor: Delete
       };
@@ -182,6 +184,13 @@ const addressReducer = (state = initialState, action) => {
 >>>>>>> 4406587... refactor: update reducer + links
       };
 
+    case ADD_NEW_ADDRESS_STORAGE:
+      return {
+        ...state,
+        mapsLink: { ...state.mapsLink, [action.payload.storageName]: state.baseURL + action.payload.address },
+        storages: [...state.storages, action.payload.storageName],
+      };
+
     default:
       return state;
   }
@@ -234,6 +243,10 @@ export const updateLinkToMapsTC = (selectedDate) => (dispatch) => {
 
 export const setStartPointTC = (startValue) => (dispatch) => {
   dispatch(setStartPointAC({ startValue }));
+};
+
+export const addNewAddressStorageTC = (address, storageName) => (dispatch) => {
+  dispatch(addNewAddressStorageAC({ address, storageName }));
 };
 
 export default addressReducer;

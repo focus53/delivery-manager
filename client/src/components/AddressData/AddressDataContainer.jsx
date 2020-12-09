@@ -8,6 +8,7 @@ import {
   updateLinkToMapsTC,
   setStartPointTC,
   setDateTC,
+  addNewAddressStorageTC,
 } from '../Redux/address-reducer';
 import { Row, Col, Divider, Collapse, Button } from 'antd';
 import Start from './Start/Start';
@@ -15,6 +16,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { MapsLink } from './MapsLink/MapsLink';
 import { CollapseHeader } from './CollapseHeader/CollapseHeader';
 import { Addresses } from './Addresses/Addresses';
+import { StorageForm } from './StorageForm/StorageForm';
 
 const { Panel } = Collapse;
 
@@ -25,6 +27,7 @@ function callback(key) {
 // Address component
 const AddressDataContainer = (props) => {
   const [addMode, setAddMode] = useState(false);
+  const [addModeStorage, setAddModeStorage] = useState(false);
   const [start, setStart] = useState('JAC');
 
   const handleSubmit = (e, street, streetNumber, postCode) => {
@@ -34,9 +37,11 @@ const AddressDataContainer = (props) => {
     props.addNewAddressTC(newAddressToString, props.selectedDate, start);
   };
 
-  const toggleModeHandle = (e) => {
-    addMode ? setAddMode(false) : setAddMode(true);
-    props.haveAddressTC(props.selectedDate);
+  const handleSubmitNewStorage = (e, street, streetNumber, postCode, storageName) => {
+    e.preventDefault();
+    setAddModeStorage(false);
+    let newAddressStorageToString = `${street} ${streetNumber}, ${postCode}`;
+    props.addNewAddressStorageTC(newAddressStorageToString, storageName);
   };
 
   const deleteAddress = (index, storage) => {
@@ -82,7 +87,7 @@ const AddressDataContainer = (props) => {
             </Col>
           </Row>
           <Row gutter={[5, 5]}>
-            <Button icon={<PlusOutlined />} onClick={toggleModeHandle}>
+            <Button icon={<PlusOutlined />} onClick={() => (addMode ? setAddMode(false) : setAddMode(true))}>
               Add new address
             </Button>
           </Row>
@@ -94,6 +99,15 @@ const AddressDataContainer = (props) => {
               </div>
             )}
           </Row>
+          <Row gutter={[5, 5]}>
+            <Button
+              icon={<PlusOutlined />}
+              onClick={() => (addModeStorage ? setAddModeStorage(false) : setAddModeStorage(true))}
+            >
+              Add new storage
+            </Button>
+          </Row>
+          <Row>{addModeStorage && <StorageForm handleSubmitNewStorage={handleSubmitNewStorage} />}</Row>
         </Col>
       </Row>
     </div>
@@ -117,4 +131,5 @@ export default connect(mapStateToProps, {
   updateLinkToMapsTC,
   setStartPointTC,
   setDateTC,
+  addNewAddressStorageTC,
 })(AddressDataContainer);
