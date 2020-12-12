@@ -1,6 +1,14 @@
 import axios from 'axios';
 
 export const dateAPI = {
+  getOneDate(date) {
+    return axios.get(`/api/date/${date}`).then((res) => {
+      if (res.status === 200) {
+        return res;
+      }
+      return;
+    });
+  },
   getDate() {
     return axios.get(`/api/date`).then((res) => {
       if (res.status === 200) {

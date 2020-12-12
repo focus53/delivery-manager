@@ -24,6 +24,15 @@ router.get('/date', async (req, res) => {
   }
 });
 
+router.get('/date/:date', async (req, res) => {
+  try {
+    const date = await Dates.find({ date: req.params.date });
+    res.status(200).json({ date: date[0] });
+  } catch (e) {
+    res.status(500).json(e.message);
+  }
+});
+
 router.post('/date', async (req, res) => {
   try {
 <<<<<<< HEAD
