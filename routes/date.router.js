@@ -4,6 +4,7 @@ const router = Router();
 
 // /api
 
+<<<<<<< HEAD
 // router.get('/date/:date', async (req, res) => {
 //   try {
 //     console.log(req.params);
@@ -15,6 +16,9 @@ const router = Router();
 // });
 
 router.get('/date', async (req, res) => {
+=======
+router.get('/', async (req, res) => {
+>>>>>>> c3ddac2... add: Handel User response in seever
   try {
     const date = await Dates.find({});
 
@@ -24,7 +28,7 @@ router.get('/date', async (req, res) => {
   }
 });
 
-router.get('/date/:date', async (req, res) => {
+router.get('/:date', async (req, res) => {
   try {
     const date = await Dates.find({ date: req.params.date });
     res.status(200).json({ date: date[0] });
@@ -33,7 +37,7 @@ router.get('/date/:date', async (req, res) => {
   }
 });
 
-router.post('/date', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
 <<<<<<< HEAD
     const { date, address } = req.body;
@@ -58,6 +62,7 @@ router.post('/date', async (req, res) => {
       return res.status(201).json({ date, address, storage });
 >>>>>>> 38823f1... refactor: Database + server router
     }
+<<<<<<< HEAD
     const newDate = await new Dates({ date, [storage]: [address] });
 <<<<<<< HEAD
 
@@ -67,6 +72,9 @@ router.post('/date', async (req, res) => {
 >>>>>>> 38823f1... refactor: Database + server router
 =======
 >>>>>>> 4406587... refactor: update reducer + links
+=======
+    const newDate = await new Dates({ date, [storage]: [address], owner: '5fd60367dc797e3a3cb76ee4' });
+>>>>>>> c3ddac2... add: Handel User response in seever
     await newDate.save();
     res.status(201).json({ date, address });
   } catch (e) {
@@ -74,7 +82,7 @@ router.post('/date', async (req, res) => {
   }
 });
 
-router.post('/date/delete_address', async (req, res) => {
+router.post('/delete_address', async (req, res) => {
   try {
 <<<<<<< HEAD
     const { index, selectedDate } = req.body;

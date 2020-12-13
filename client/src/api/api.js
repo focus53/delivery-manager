@@ -33,3 +33,11 @@ export const dateAPI = {
     });
   },
 };
+
+export const userAPI = {
+  getUser(userEmail, password) {
+    return axios.post('/api/auth/login', { userEmail, password }).then((res) => {
+      return res;
+    });
+  },
+};

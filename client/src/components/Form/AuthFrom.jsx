@@ -19,6 +19,7 @@ const tailLayout = {
 const AuthForm = (props) => {
   const onFinish = (values) => {
     console.log('Success:', values);
+    props.loginTC(values.username, values.password);
   };
 
   const onFinishFailed = (errorInfo) => {

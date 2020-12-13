@@ -6,7 +6,8 @@ const app = express();
 
 require('dotenv').config();
 app.use(express.json({ extended: true }));
-app.use('/api', require('./routes/date.router'));
+app.use('/api/date', require('./routes/date.router'));
+app.use('/api/auth', require('./routes/auth.router'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

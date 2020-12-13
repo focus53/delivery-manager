@@ -5,24 +5,39 @@ import React from 'react';
 import AuthPage from './pages/AuthPage';
 import AddressDataContainer from './components/AddressData/AddressDataContainer';
 import { Col, Row } from 'antd';
+import { connect } from 'react-redux';
+import { setAuthenticatedTC, loginTC } from '../src/components/Redux/user-reducer';
 
-const useRoutes = () => {
+const Routes = (props) => {
+  if (props.isAuthenticated) {
+    return (
+      <Switch>
+        <Route path="/calendar">
+          <Row style={{ margin: '20px' }}>
+            <Col>
+              <Calendar />
+              <AddressDataContainer />
+            </Col>
+          </Row>
+        </Route>
+        <Redirect to="/calendar" />
+      </Switch>
+    );
+  }
   return (
     <Switch>
-      <Route path="/calendar">
-        <Row style={{ margin: '20px' }}>
-          <Col>
-            <Calendar />
-            <AddressDataContainer />
-          </Col>
-        </Row>
-      </Route>
       <Route path="/auth">
-        <AuthPage />
+        <AuthPage setAuthenticatedTC={props.setAuthenticatedTC} loginTC={props.loginTC} />
       </Route>
-      <Redirect to="/calendar" />
+      <Redirect to="/auth" />
     </Switch>
   );
 };
 
-export default useRoutes;
+const mapStateToProps = (store) => {
+  return {
+    isAuthenticated: store.userReducer.isAuthenticated,
+  };
+};
+
+export default connect(mapStateToProps, { setAuthenticatedTC, loginTC })(Routes);

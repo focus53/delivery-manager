@@ -16,13 +16,18 @@ import AddressDataContainer from './components/AddressData/AddressDataContainer'
 =======
 import store from './components/Redux/redux-store';
 import { BrowserRouter } from 'react-router-dom';
+<<<<<<< HEAD
 import useRoutes from './routes';
 >>>>>>> 9871675... add: Login & Registration pages
+=======
+import Routes from './routes';
+>>>>>>> c3ddac2... add: Handel User response in seever
 
 function App() {
-  const routes = useRoutes();
+  //const routes = useRoutes(false);
   return (
     <Provider store={store}>
+<<<<<<< HEAD
 <<<<<<< HEAD
       <Row style={{ margin: '20px' }}>
         <Col>
@@ -34,6 +39,11 @@ function App() {
 =======
       <BrowserRouter>{routes}</BrowserRouter>
 >>>>>>> 9871675... add: Login & Registration pages
+=======
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+>>>>>>> c3ddac2... add: Handel User response in seever
     </Provider>
   );
 }
