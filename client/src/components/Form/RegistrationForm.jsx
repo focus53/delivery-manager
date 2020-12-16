@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Input, Row, Col, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 
 const formItemLayout = {
   labelCol: {

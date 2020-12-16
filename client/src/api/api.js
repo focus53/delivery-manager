@@ -9,8 +9,8 @@ export const dateAPI = {
       return;
     });
   },
-  getDate() {
-    return axios.get(`/api/date`).then((res) => {
+  getDate(token) {
+    return axios.get(`/api/date`, {headers: {Authorization: `Bearer ${token}`}}).then((res) => {
       if (res.status === 200) {
         return res;
       }

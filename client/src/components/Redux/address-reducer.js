@@ -197,8 +197,8 @@ const addressReducer = (state = initialState, action) => {
 };
 
 // Thunk creators
-export const setDateTC = (selectedDate) => async (dispatch) => {
-  const getDate = await dateAPI.getDate(selectedDate);
+export const setDateTC = (selectedDate, token) => async (dispatch) => {
+  const getDate = await dateAPI.getDate(token);
   dispatch(setAddressesAC(getDate));
 };
 

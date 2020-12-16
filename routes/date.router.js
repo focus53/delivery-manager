@@ -1,9 +1,11 @@
 const { Router } = require('express');
 const Dates = require('../models/Date');
 const router = Router();
+const authMiddleware = require('../middleware/authMiddleware');
 
 // /api
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // router.get('/date/:date', async (req, res) => {
 //   try {
@@ -19,8 +21,11 @@ router.get('/date', async (req, res) => {
 =======
 router.get('/', async (req, res) => {
 >>>>>>> c3ddac2... add: Handel User response in seever
+=======
+router.get('/', authMiddleware, async (req, res) => {
+>>>>>>> 46666bc... refactor: API with token
   try {
-    const date = await Dates.find({});
+    const date = await Dates.find({ owner: req.user.userId });
 
     res.status(200).json({ date });
   } catch (e) {
@@ -49,6 +54,7 @@ router.post('/', async (req, res) => {
     let isExistDate = await Dates.findOne({ date });
 =======
     const { date, address, storage, userId } = req.body;
+<<<<<<< HEAD
     let isExistDate = await Dates.findOne({ owner: userId });
 >>>>>>> 1a7d319... add: Register with token
     if (isExistDate) {
@@ -82,6 +88,27 @@ router.post('/', async (req, res) => {
     const newDate = await new Dates({ date, [storage]: [address], owner: '5fd60367dc797e3a3cb76ee4' });
 >>>>>>> c3ddac2... add: Handel User response in seever
 =======
+=======
+
+    let isExistDate = await Dates.find({ owner: userId });
+
+    if (isExistDate) {
+      const isMatchDate = isExistDate.find((el) => {
+        return el.date === date;
+      });
+      if (isMatchDate) {
+        let toObj = isMatchDate.toObject();
+        if (toObj[storage]) {
+          toObj[storage].push(address);
+          await Dates.updateOne({ date }, { $set: { [storage]: toObj[storage] } });
+          return res.status(201).json({ date, address, storage });
+        }
+        await Dates.updateOne({ date }, { $set: { [storage]: [address] } });
+        return res.status(201).json({ date, address, storage });
+      }
+    }
+
+>>>>>>> 46666bc... refactor: API with token
     const newDate = await new Dates({ date, [storage]: [address], owner: userId });
 >>>>>>> 1a7d319... add: Register with token
     await newDate.save();

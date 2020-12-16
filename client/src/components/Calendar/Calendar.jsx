@@ -11,7 +11,12 @@ class CalendarClass extends React.Component {
     this.state = { selectedDate: new Date() };
   }
   componentDidMount() {
+<<<<<<< HEAD
     this.props.setDateTC()
+=======
+    this.props.setDateTC(this.state.selectedDate.toDateString(), this.props.token);
+    this.props.selectDateTC(this.state.selectedDate.toDateString());
+>>>>>>> 46666bc... refactor: API with token
   }
 
   handleChange(val) {
@@ -40,36 +45,11 @@ class CalendarClass extends React.Component {
   }
 }
 
-// const Calendar = (props) => {
-//   const [selectedDate, setSelectedDate] = useState(new Date());
-
-//   const handleChange = (val) => {
-//     setSelectedDate(val);
-//     props.selectDateTC(val.toDateString());
-//   };
-
-//   const handleClick = (value, event) => {
-//     //props.haveAddressTC(value.toDateString());
-//   };
-
-//   return (
-//     <div className="asd">
-//       <ReactCalendar
-//         onChange={handleChange}
-//         value={selectedDate}
-//         onClickDay={handleClick}
-//         tileClassName={(obj) => {
-//           return props.haveAddress.includes(obj.date.toDateString()) && 'haveAddress';
-//         }}
-//       />
-//     </div>
-//   );
-// };
-
 const mapStateToProps = (state) => {
   return {
     selectedDate: state.addressReducer.selectedDate,
     haveAddress: state.addressReducer.routing.map((e) => e.date),
+    token: state.userReducer.token,
   };
 };
 
