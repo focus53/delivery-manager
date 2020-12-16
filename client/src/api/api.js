@@ -10,7 +10,7 @@ export const dateAPI = {
     });
   },
   getDate(token) {
-    return axios.get(`/api/date`, {headers: {Authorization: `Bearer ${token}`}}).then((res) => {
+    return axios.get(`/api/date`, { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
       if (res.status === 200) {
         return res;
       }
@@ -49,5 +49,11 @@ export const userAPI = {
     return axios.post('api/auth/register', { userEmail, password }).then((res) => {
       return res;
     });
+  },
+  addStorage(newStorage, userId) {
+    return axios.post('api/auth/storage', { newStorage, userId }).then((res) => res);
+  },
+  getStorages(token) {
+    return axios.get('api/auth/storage', { headers: { Authorization: `Bearer ${token}` } });
   },
 };

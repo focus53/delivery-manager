@@ -188,7 +188,6 @@ const addressReducer = (state = initialState, action) => {
       return {
         ...state,
         mapsLink: { ...state.mapsLink, [action.payload.storageName]: state.baseURL + action.payload.address },
-        storages: [...state.storages, action.payload.storageName],
       };
 
     default:
@@ -198,8 +197,14 @@ const addressReducer = (state = initialState, action) => {
 
 // Thunk creators
 export const setDateTC = (selectedDate, token) => async (dispatch) => {
+<<<<<<< HEAD
   const getDate = await dateAPI.getDate(token);
   dispatch(setAddressesAC(getDate));
+=======
+  const getDates = await dateAPI.getDate(token);
+  dispatch(setAddressesAC(getDates));
+  dispatch(setLinksToMapsAC(selectedDate));
+>>>>>>> 24141e1... refactor: User storages
 };
 
 export const selectDateTC = (date) => (dispatch) => {

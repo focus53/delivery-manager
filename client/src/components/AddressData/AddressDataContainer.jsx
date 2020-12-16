@@ -10,7 +10,7 @@ import {
   setDateTC,
   addNewAddressStorageTC,
 } from '../Redux/address-reducer';
-import { logoutTC } from '../Redux/user-reducer';
+import { logoutTC, addStorageTC } from '../Redux/user-reducer';
 import { Row, Col, Divider, Collapse, Button } from 'antd';
 import Start from './Start/Start';
 import { PlusOutlined } from '@ant-design/icons';
@@ -43,6 +43,7 @@ const AddressDataContainer = (props) => {
     setAddModeStorage(false);
     let newAddressStorageToString = `${street} ${streetNumber}, ${postCode}`;
     props.addNewAddressStorageTC(newAddressStorageToString, storageName);
+    props.addStorageTC(storageName, props.userId);
   };
 
   const deleteAddress = (index, storage) => {
@@ -129,7 +130,7 @@ const mapStateToProps = (store) => {
     selectedDate: store.addressReducer.selectedDate,
     routing: store.addressReducer.routing,
     mapsLink: store.addressReducer.mapsLink,
-    storages: store.addressReducer.storages,
+    storages: store.userReducer.userStorages,
     defaultLinks: store.mapsLink,
     userId: store.userReducer.userId,
   };
@@ -144,4 +145,5 @@ export default connect(mapStateToProps, {
   setDateTC,
   addNewAddressStorageTC,
   logoutTC,
+  addStorageTC,
 })(AddressDataContainer);
