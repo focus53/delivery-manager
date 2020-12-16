@@ -10,6 +10,7 @@ import {
   setDateTC,
   addNewAddressStorageTC,
 } from '../Redux/address-reducer';
+import { logoutTC } from '../Redux/user-reducer';
 import { Row, Col, Divider, Collapse, Button } from 'antd';
 import Start from './Start/Start';
 import { PlusOutlined } from '@ant-design/icons';
@@ -107,6 +108,15 @@ const AddressDataContainer = (props) => {
               Add new storage
             </Button>
           </Row>
+          <Row>
+            <Button
+              onClick={() => {
+                props.logoutTC();
+              }}
+            >
+              Logout
+            </Button>
+          </Row>
           <Row>{addModeStorage && <StorageForm handleSubmitNewStorage={handleSubmitNewStorage} />}</Row>
         </Col>
       </Row>
@@ -132,4 +142,5 @@ export default connect(mapStateToProps, {
   setStartPointTC,
   setDateTC,
   addNewAddressStorageTC,
+  logoutTC,
 })(AddressDataContainer);

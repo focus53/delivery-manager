@@ -1,14 +1,18 @@
 import 'antd/dist/antd.css';
 import Calendar from './components/Calendar/Calendar';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthPage from './pages/AuthPage';
 import AddressDataContainer from './components/AddressData/AddressDataContainer';
 import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
-import { setAuthenticatedTC, loginTC } from '../src/components/Redux/user-reducer';
+import { setAuthenticatedTC, isLoginTC, loginTC } from '../src/components/Redux/user-reducer';
 
 const Routes = (props) => {
+  useEffect(() => {
+    props.isLoginTC();
+  }, []);
+
   if (props.isAuthenticated) {
     return (
       <Switch>
@@ -40,4 +44,4 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps, { setAuthenticatedTC, loginTC })(Routes);
+export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC })(Routes);
