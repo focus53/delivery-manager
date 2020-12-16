@@ -4,7 +4,6 @@ const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 const LOGIN = 'LOGIN';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT = 'LOGOUT';
-const REGISTER = 'REGISTER';
 
 const setAuthenticatedAC = (payload) => {
   return { type: IS_AUTHENTICATED, payload };
@@ -18,14 +17,11 @@ const loginErrorAC = (payload) => {
 const logoutAC = (payload) => {
   return { type: LOGOUT, payload };
 };
-const registerAC = (payload) => {
-  return { type: REGISTER, payload };
-};
 
 const initialState = {
   isAuthenticated: false,
-  userEmail: null,
-  password: null,
+  userId: null,
+  token: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -33,13 +29,11 @@ const userReducer = (state = initialState, action) => {
     case IS_AUTHENTICATED:
       return { ...state, isAuthenticated: action.payload.isAuth };
     case LOGIN:
-      return { ...state, userEmail: action.payload.userEmail, password: action.payload.password };
+      return { ...state, userId: action.payload.userId, token: action.payload.token };
     case LOGIN_ERROR:
       return { ...state, loginError: action.payload.errorMassage };
     case LOGOUT:
-      return { ...state, userEmail: null, password: null };
-    case REGISTER:
-      return { ...state };
+      return { ...state, userId: null, token: null };
     default:
       return state;
   }
@@ -52,13 +46,11 @@ export const setAuthenticatedTC = (isAuth) => (dispatch) => {
 export const loginTC = (userEmail, password) => async (dispatch, getState) => {
   try {
     const response = await userAPI.getUser(userEmail, password);
-
-    dispatch(loginAC({ userEmail: response.data.email, password: response.data.password }));
-    dispatch(setAuthenticatedAC({ isAuth: true }));
-    localStorage.setItem(
-      'userData',
-      JSON.stringify({ userEmail: response.data.email, password: response.data.password })
-    );
+    if (!!response.data.token) {
+      dispatch(loginAC({ userId: response.data.userId, token: response.data.token }));
+      dispatch(setAuthenticatedAC({ isAuth: true }));
+      localStorage.setItem('userData', JSON.stringify({ userId: response.data.userId, token: response.data.token }));
+    }
   } catch (e) {
     dispatch(loginErrorAC({ errorMassage: e.response.data.message }));
     console.log(e.response.data.message);
@@ -69,8 +61,9 @@ export const isLoginTC = () => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
 
   if (userData) {
-    dispatch(loginAC({ userEmail: userData.userEmail, password: userData.password }));
-    dispatch(setAuthenticatedAC({ isAuth: true }));
+    dispatch(loginAC({ userId: userData.userId, token: userData.token }));
+    dispatch(setAuthenticatedAC({ isAuth: !!userData.token }));
+    dispatch(loginErrorAC({ errorMassage: '' }));
   }
 };
 
@@ -81,8 +74,17 @@ export const logoutTC = () => async (dispatch) => {
 };
 
 export const registerTC = (userEmail, password) => async (dispatch) => {
-  const response = await userAPI.registerUser(userEmail, password);
-  dispatch(registerAC({ userEmail, password }));
+  try {
+    const registerUser = await userAPI.registerUser(userEmail, password);
+
+    if (registerUser.status === 201) {
+      debugger
+      dispatch(loginTC(userEmail, password));
+    }
+  } catch (e) {
+    dispatch(loginErrorAC({ errorMassage: e.registerUser.data.message }));
+    console.log(e.registerUser.data.message);
+  }
 };
 
 export default userReducer;

@@ -40,12 +40,17 @@ router.get('/:date', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
 <<<<<<< HEAD
+<<<<<<< HEAD
     const { date, address } = req.body;
 
 =======
     const { date, address, storage } = req.body;
 >>>>>>> 4406587... refactor: update reducer + links
     let isExistDate = await Dates.findOne({ date });
+=======
+    const { date, address, storage, userId } = req.body;
+    let isExistDate = await Dates.findOne({ owner: userId });
+>>>>>>> 1a7d319... add: Register with token
     if (isExistDate) {
 <<<<<<< HEAD
       isExistDate.addresses.push(address);
@@ -63,6 +68,7 @@ router.post('/', async (req, res) => {
 >>>>>>> 38823f1... refactor: Database + server router
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     const newDate = await new Dates({ date, [storage]: [address] });
 <<<<<<< HEAD
 
@@ -75,6 +81,9 @@ router.post('/', async (req, res) => {
 =======
     const newDate = await new Dates({ date, [storage]: [address], owner: '5fd60367dc797e3a3cb76ee4' });
 >>>>>>> c3ddac2... add: Handel User response in seever
+=======
+    const newDate = await new Dates({ date, [storage]: [address], owner: userId });
+>>>>>>> 1a7d319... add: Register with token
     await newDate.save();
     res.status(201).json({ date, address });
   } catch (e) {

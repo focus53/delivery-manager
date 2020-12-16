@@ -17,8 +17,13 @@ export const dateAPI = {
       return;
     });
   },
+<<<<<<< HEAD
   newDate(date, address) {
     return axios.post('/api/date', { date, address }).then((res) => {
+=======
+  newDate(date, address, storage, userId) {
+    return axios.post('/api/date', { date, address, storage, userId }).then((res) => {
+>>>>>>> 1a7d319... add: Register with token
       return res;
     });
   },
@@ -41,7 +46,6 @@ export const userAPI = {
     });
   },
   registerUser(userEmail, password) {
-    debugger;
     return axios.post('api/auth/register', { userEmail, password }).then((res) => {
       return res;
     });

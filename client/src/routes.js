@@ -31,11 +31,7 @@ const Routes = (props) => {
   return (
     <Switch>
       <Route path="/auth">
-        <AuthPage
-          setAuthenticatedTC={props.setAuthenticatedTC}
-          loginTC={props.loginTC}
-          registerTC={props.registerTC}
-        />
+        <AuthPage setAuthenticatedTC={props.setAuthenticatedTC} loginTC={props.loginTC} registerTC={props.registerTC} />
       </Route>
       <Redirect to="/auth" />
     </Switch>
@@ -45,6 +41,7 @@ const Routes = (props) => {
 const mapStateToProps = (store) => {
   return {
     isAuthenticated: store.userReducer.isAuthenticated,
+    userEmail: store.userReducer.userEmail,
   };
 };
 

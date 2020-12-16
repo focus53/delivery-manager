@@ -37,8 +37,6 @@ const RegistrationForm = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    debugger;
     props.registerTC(values.email, values.password);
   };
 
@@ -106,7 +104,7 @@ const RegistrationForm = (props) => {
               {'<'}
             </Button>
             <Button style={{ margin: '5px' }} type="primary" htmlType="submit">
-              Register
+              Register and Login
             </Button>
           </Form.Item>
         </Form>

@@ -35,7 +35,7 @@ const AddressDataContainer = (props) => {
     e.preventDefault();
     setAddMode(false);
     let newAddressToString = `${street} ${streetNumber}, ${postCode}`;
-    props.addNewAddressTC(newAddressToString, props.selectedDate, start);
+    props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId);
   };
 
   const handleSubmitNewStorage = (e, street, streetNumber, postCode, storageName) => {
@@ -131,6 +131,7 @@ const mapStateToProps = (store) => {
     mapsLink: store.addressReducer.mapsLink,
     storages: store.addressReducer.storages,
     defaultLinks: store.mapsLink,
+    userId: store.userReducer.userId,
   };
 };
 

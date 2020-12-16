@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const User = require('../models/User');
 const router = Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 router.post('/login', async (req, res) => {
   try {
@@ -12,12 +15,14 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'User not found!' });
     }
 
-    const matchPassword = user.password === password;
+    const matchPassword = await bcrypt.compare(password, user.password);
 
     if (!matchPassword) {
       return res.status(400).json({ message: 'Incorrect email or password!' });
     }
-    res.status(200).json(user);
+    const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
+
+    res.status(200).json({ userId: user.id, token });
   } catch (e) {
     res.status(500).json(e.message);
   }
@@ -26,14 +31,15 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
   try {
     const { userEmail, password } = req.body;
-    console.log(userEmail);
     const isExistUser = await User.findOne({ email: userEmail });
 
     if (isExistUser) {
       return res.status(400).json({ message: 'User is already exist' });
     }
 
-    const newUser = await new User({ email: userEmail, password });
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const newUser = await new User({ email: userEmail, password: hashedPassword });
     newUser.save();
 
     res.status(201).json({ message: 'User is created' });

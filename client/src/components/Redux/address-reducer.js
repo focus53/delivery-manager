@@ -207,6 +207,7 @@ export const selectDateTC = (date) => (dispatch) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const addNewAddressTC = (formData, selectedDate) => async (dispatch) => {
   const response = await dateAPI.newDate(selectedDate, formData);
   dispatch(addNewAddressAC({ selectedDate: response.data.date, formData: response.data.address }));
@@ -214,6 +215,11 @@ export const addNewAddressTC = (formData, selectedDate) => async (dispatch) => {
 export const addNewAddressTC = (address, selectedDate, storage) => async (dispatch) => {
   const response = await dateAPI.newDate(selectedDate, address, storage);
   await dispatch(addNewAddressAC({ selectedDate: response.data.date, address: response.data.address, storage }));
+=======
+export const addNewAddressTC = (address, selectedDate, storage, userId) => async (dispatch) => {
+  const response = await dateAPI.newDate(selectedDate, address, storage, userId);
+  dispatch(addNewAddressAC({ selectedDate: response.data.date, address: response.data.address, storage }));
+>>>>>>> 1a7d319... add: Register with token
   dispatch(updateLinkToMapsAC({ selectedDate, storage, address }));
 >>>>>>> 4406587... refactor: update reducer + links
 };
