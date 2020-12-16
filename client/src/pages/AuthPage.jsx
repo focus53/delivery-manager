@@ -16,7 +16,7 @@ const AuthPage = (props) => {
         </Col>
       </Row>
       {register ? (
-        <RegistrationForm isRegister={setRegister} />
+        <RegistrationForm isRegister={setRegister} registerTC={props.registerTC} />
       ) : (
         <AuthForm isRegister={setRegister} setAuthenticatedTC={props.setAuthenticatedTC} loginTC={props.loginTC} />
       )}

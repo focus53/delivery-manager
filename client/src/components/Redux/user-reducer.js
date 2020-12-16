@@ -4,6 +4,7 @@ const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
 const LOGIN = 'LOGIN';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT = 'LOGOUT';
+const REGISTER = 'REGISTER';
 
 const setAuthenticatedAC = (payload) => {
   return { type: IS_AUTHENTICATED, payload };
@@ -16,6 +17,9 @@ const loginErrorAC = (payload) => {
 };
 const logoutAC = (payload) => {
   return { type: LOGOUT, payload };
+};
+const registerAC = (payload) => {
+  return { type: REGISTER, payload };
 };
 
 const initialState = {
@@ -34,6 +38,8 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loginError: action.payload.errorMassage };
     case LOGOUT:
       return { ...state, userEmail: null, password: null };
+    case REGISTER:
+      return { ...state };
     default:
       return state;
   }
@@ -72,6 +78,11 @@ export const logoutTC = () => async (dispatch) => {
   dispatch(logoutAC());
   dispatch(setAuthenticatedAC({ isAuth: false }));
   localStorage.removeItem('userData');
+};
+
+export const registerTC = (userEmail, password) => async (dispatch) => {
+  const response = await userAPI.registerUser(userEmail, password);
+  dispatch(registerAC({ userEmail, password }));
 };
 
 export default userReducer;

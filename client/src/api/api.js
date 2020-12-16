@@ -40,4 +40,10 @@ export const userAPI = {
       return res;
     });
   },
+  registerUser(userEmail, password) {
+    debugger;
+    return axios.post('api/auth/register', { userEmail, password }).then((res) => {
+      return res;
+    });
+  },
 };

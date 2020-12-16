@@ -38,6 +38,8 @@ const RegistrationForm = (props) => {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    debugger;
+    props.registerTC(values.email, values.password);
   };
 
   return (

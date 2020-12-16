@@ -6,7 +6,7 @@ import AuthPage from './pages/AuthPage';
 import AddressDataContainer from './components/AddressData/AddressDataContainer';
 import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
-import { setAuthenticatedTC, isLoginTC, loginTC } from '../src/components/Redux/user-reducer';
+import { setAuthenticatedTC, isLoginTC, loginTC, registerTC } from '../src/components/Redux/user-reducer';
 
 const Routes = (props) => {
   useEffect(() => {
@@ -31,7 +31,11 @@ const Routes = (props) => {
   return (
     <Switch>
       <Route path="/auth">
-        <AuthPage setAuthenticatedTC={props.setAuthenticatedTC} loginTC={props.loginTC} />
+        <AuthPage
+          setAuthenticatedTC={props.setAuthenticatedTC}
+          loginTC={props.loginTC}
+          registerTC={props.registerTC}
+        />
       </Route>
       <Redirect to="/auth" />
     </Switch>
@@ -44,4 +48,4 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC })(Routes);
+export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC })(Routes);
