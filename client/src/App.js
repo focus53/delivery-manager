@@ -17,11 +17,15 @@ import AddressDataContainer from './components/AddressData/AddressDataContainer'
 import store from './components/Redux/redux-store';
 import { BrowserRouter } from 'react-router-dom';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import useRoutes from './routes';
 >>>>>>> 9871675... add: Login & Registration pages
 =======
 import Routes from './routes';
 >>>>>>> c3ddac2... add: Handel User response in seever
+=======
+import Routes from './Routes';
+>>>>>>> 4b9458d... add: Storages page
 
 function App() {
   //const routes = useRoutes(false);
