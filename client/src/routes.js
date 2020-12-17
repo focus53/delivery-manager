@@ -6,10 +6,10 @@ import AuthPage from './pages/AuthPage';
 import AddressDataContainer from './components/AddressData/AddressDataContainer';
 import { Col, Divider, Row } from 'antd';
 import { connect } from 'react-redux';
-import { setAuthenticatedTC, isLoginTC, loginTC, registerTC } from '../src/components/Redux/user-reducer';
+import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from '../src/components/Redux/user-reducer';
 
 import { Layout, Menu } from 'antd';
-import { DesktopOutlined, PieChartOutlined, FileOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
+import { TeamOutlined, ExportOutlined, SettingOutlined, HomeOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -39,23 +39,22 @@ const Routes = (props) => {
           <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <div className="logo" />
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-              <Menu.Item key="1" icon={<PieChartOutlined />}>
-                Option 1
+              <Menu.Item key="1" icon={<CalendarOutlined />}>
+                Calendar
               </Menu.Item>
-              <Menu.Item key="2" icon={<DesktopOutlined />}>
-                Option 2
+              <Menu.Item key="2" icon={<HomeOutlined />}>
+                Storages
               </Menu.Item>
-              <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                <Menu.Item key="3">Tom</Menu.Item>
-                <Menu.Item key="4">Bill</Menu.Item>
-                <Menu.Item key="5">Alex</Menu.Item>
-              </SubMenu>
+              <Menu.Item key="3" icon={<SettingOutlined />}>
+                Settings
+              </Menu.Item>
+
               <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                <Menu.Item key="6">Team 1</Menu.Item>
-                <Menu.Item key="8">Team 2</Menu.Item>
+                <Menu.Item key="4">Team 1</Menu.Item>
+                <Menu.Item key="5">Team 2</Menu.Item>
               </SubMenu>
-              <Menu.Item key="9" icon={<FileOutlined />}>
-                Files
+              <Menu.Item key="6" icon={<ExportOutlined />} onClick={() => props.logoutTC()}>
+                Log out
               </Menu.Item>
             </Menu>
           </Sider>
@@ -116,4 +115,4 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC })(Routes);
+export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC })(Routes);
