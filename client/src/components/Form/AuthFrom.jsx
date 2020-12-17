@@ -28,9 +28,9 @@ const AuthForm = (props) => {
 
   return (
     <div>
-      (
       <Row style={{ marginTop: '100px' }}>
         <Col span={12} offset={6}>
+          <h1 style={{ textAlign: 'center', margin: '50px' }}>Log in:</h1>
           <Form
             {...layout}
             name="basic"
@@ -70,11 +70,11 @@ const AuthForm = (props) => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
             <Form.Item {...tailLayout}>
-              <Button type="primary" htmlType="submit" style={{ margin: '5px' }}>
-                Log in
+              <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>
+                Log In
               </Button>
 
-              <Button type="primary" style={{ margin: '5px' }} onClick={() => props.isRegister(true)}>
+              <Button type="primary" style={{ margin: '10px' }} onClick={() => props.isRegister(true)}>
                 Register
               </Button>
             </Form.Item>

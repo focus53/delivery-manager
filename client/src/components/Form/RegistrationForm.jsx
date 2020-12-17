@@ -42,6 +42,7 @@ const RegistrationForm = (props) => {
   return (
     <Row justify="center" style={{ marginTop: '100px' }}>
       <Col span={12} offset={0}>
+        <h1 style={{ textAlign: 'center', margin: '50px' }}>Registration:</h1>
         <Form {...formItemLayout} form={form} name="register" onFinish={onFinish} scrollToFirstError>
           <Form.Item
             name="email"
