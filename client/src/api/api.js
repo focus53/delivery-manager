@@ -50,8 +50,8 @@ export const userAPI = {
       return res;
     });
   },
-  addStorage(newStorage, userId) {
-    return axios.post('api/auth/storage', { newStorage, userId }).then((res) => res);
+  addStorage(newStorage, newAddressStorage, userId) {
+    return axios.post('api/auth/storage', { newStorage, newAddressStorage, userId }).then((res) => res);
   },
   getStorages(token) {
     return axios.get('api/auth/storage', { headers: { Authorization: `Bearer ${token}` } });

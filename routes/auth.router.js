@@ -23,7 +23,9 @@ router.post('/login', async (req, res) => {
     }
     const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
 
-    res.status(200).json({ userId: user.id, token, userStorages: user.storages });
+    res
+      .status(200)
+      .json({ userId: user.id, token, userStorages: user.storages, userAddressesStorages: user.storagesAddresses });
   } catch (e) {
     res.status(500).json(e.message);
   }
@@ -50,15 +52,17 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/storage', async (req, res) => {
-  const { userId, newStorage } = req.body;
+  const { userId, newStorage, newAddressStorage } = req.body;
   try {
     const user = await User.findById(userId);
+    console.log();
 
     if (!user) {
       return res.status(400).json({ message: 'User is undefined' });
     }
 
     user.storages.push(newStorage);
+    user.storagesAddresses.push(newAddressStorage);
     user.save();
     res.status(201).json({ message: 'Created' });
   } catch (e) {
@@ -72,7 +76,7 @@ router.get('/storage', authMiddleware, async (req, res) => {
     res.status(400).json({ message: 'User is undefined' });
   }
   const user = await User.findById(userId);
-  res.status(200).json({ userStorages: user.storages });
+  res.status(200).json({ userStorages: user.storages, userAddressesStorages: user.storagesAddresses });
 });
 
 module.exports = router;

@@ -5,6 +5,7 @@ const LOGIN = 'LOGIN';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT = 'LOGOUT';
 const ADD_STORAGE = 'ADD_STORAGE';
+const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
 
 const setAuthenticatedAC = (payload) => {
   return { type: IS_AUTHENTICATED, payload };
@@ -21,12 +22,16 @@ const logoutAC = (payload) => {
 const addStorageAC = (payload) => {
   return { type: ADD_STORAGE, payload };
 };
+const addNewAddressStorageAC = (payload) => {
+  return { type: ADD_NEW_ADDRESS_STORAGE, payload };
+};
 
 const initialState = {
   isAuthenticated: false,
   userId: null,
   token: null,
   userStorages: [],
+  userAddressesStorages: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -39,13 +44,19 @@ const userReducer = (state = initialState, action) => {
         userId: action.payload.userId,
         token: action.payload.token,
         userStorages: action.payload.userStorages,
+        userAddressesStorages: action.payload.userAddressesStorages,
       };
     case LOGIN_ERROR:
       return { ...state, loginError: action.payload.errorMassage };
     case LOGOUT:
       return { ...state, userId: null, token: null };
     case ADD_STORAGE:
-      return { ...state, userStorages: [...state.userStorages, action.payload.newStorage] };
+      return {
+        ...state,
+        userStorages: [...state.userStorages, action.payload.newStorage],
+        userAddressesStorages: [...state.userAddressesStorages, action.payload.newAddressStorage],
+      };
+
     default:
       return state;
   }
@@ -60,7 +71,12 @@ export const loginTC = (userEmail, password) => async (dispatch, getState) => {
     const response = await userAPI.getUser(userEmail, password);
     if (!!response.data.token) {
       dispatch(
-        loginAC({ userId: response.data.userId, token: response.data.token, userStorages: response.data.userStorages })
+        loginAC({
+          userId: response.data.userId,
+          token: response.data.token,
+          userStorages: response.data.userStorages,
+          userAddressesStorages: response.data.userAddressesStorages,
+        })
       );
       dispatch(setAuthenticatedAC({ isAuth: true }));
 
@@ -77,7 +93,14 @@ export const isLoginTC = () => async (dispatch) => {
 
   if (userData) {
     const user = await userAPI.getStorages(userData.token);
-    dispatch(loginAC({ userId: userData.userId, token: userData.token, userStorages: user.data.userStorages }));
+    dispatch(
+      loginAC({
+        userId: userData.userId,
+        token: userData.token,
+        userStorages: user.data.userStorages,
+        userAddressesStorages: user.data.userAddressesStorages,
+      })
+    );
     dispatch(setAuthenticatedAC({ isAuth: !!userData.token }));
     dispatch(loginErrorAC({ errorMassage: '' }));
   }
@@ -92,21 +115,19 @@ export const logoutTC = () => async (dispatch) => {
 export const registerTC = (userEmail, password) => async (dispatch) => {
   try {
     const registerUser = await userAPI.registerUser(userEmail, password);
-
     if (registerUser.status === 201) {
       dispatch(loginTC(userEmail, password));
     }
   } catch (e) {
-    dispatch(loginErrorAC({ errorMassage: e.registerUser.data.message }));
-    console.log(e.registerUser.data.message);
+    console.log(e.response);
+    dispatch(loginErrorAC({ errorMassage: e.response.data.message }));
   }
 };
 
-export const addStorageTC = (newStorage, userId) => async (dispatch) => {
-  const response = await userAPI.addStorage(newStorage, userId);
+export const addStorageTC = (newStorage, newAddressStorage, userId) => async (dispatch) => {
+  const response = await userAPI.addStorage(newStorage, newAddressStorage, userId);
   if (response.status === 201) {
-    
-    dispatch(addStorageAC({ newStorage }));
+    dispatch(addStorageAC({ newStorage, newAddressStorage }));
   }
 };
 

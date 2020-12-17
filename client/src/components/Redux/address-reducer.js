@@ -10,12 +10,11 @@ const SET_ADDRESSES = 'SET_ADDRESSES';
 const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
 
 const initialState = {
-  storages: ['ADK', 'JAC', 'VER', 'SHR'],
   baseURL: 'https://www.google.com/maps/dir/',
-  startURL: '',
   selectedDate: '',
   routing: [],
   haveAddress: [],
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   mapsLink: {
@@ -25,6 +24,9 @@ const initialState = {
     SHR: 'https://www.google.de/maps/dir/Sophie-Charlotten-Straße+1,+14059+Berlin',
   },
 >>>>>>> c27eb70... refactor: Delete
+=======
+  mapsLink: {},
+>>>>>>> 245386d... refactor: Address and user reducers
 };
 
 // Action creators
@@ -48,9 +50,6 @@ const setStartPointAC = (payload) => {
 };
 const setAddressesAC = (payload) => {
   return { type: SET_ADDRESSES, payload };
-};
-const addNewAddressStorageAC = (payload) => {
-  return { type: ADD_NEW_ADDRESS_STORAGE, payload };
 };
 
 // Reducer
@@ -135,10 +134,11 @@ const addressReducer = (state = initialState, action) => {
             return obj;
 =======
             let mapsLinks = {};
-            state.storages.forEach((element) => {
+            action.payload.storages.forEach((element, index) => {
               if (obj[element]) {
                 mapsLinks[element] =
-                  state.mapsLink[element] +
+                  state.baseURL +
+                  action.payload.userAddressesStorages[index] +
                   obj[element].reduce((acc, currentVal) => {
                     return `${acc}/${currentVal}`;
                   }, '');
@@ -170,8 +170,10 @@ const addressReducer = (state = initialState, action) => {
         routing: [
           ...state.routing.map((obj) => {
             if (obj.date === action.payload.selectedDate) {
+              const index = action.payload.storages.findIndex((el) => el === action.payload.storage);
               let newLink =
-                state.mapsLink[action.payload.storage] +
+                state.baseURL +
+                action.payload.userAddressesStorages[index] +
                 obj[action.payload.storage].reduce((acc, currentVal) => {
                   return `${acc}/${currentVal}`;
                 }, '');
@@ -196,21 +198,32 @@ const addressReducer = (state = initialState, action) => {
 };
 
 // Thunk creators
+<<<<<<< HEAD
 export const setDateTC = (selectedDate, token) => async (dispatch) => {
 <<<<<<< HEAD
   const getDate = await dateAPI.getDate(token);
   dispatch(setAddressesAC(getDate));
 =======
+=======
+export const setDateTC = (selectedDate, token) => async (dispatch, getState) => {
+>>>>>>> 245386d... refactor: Address and user reducers
   const getDates = await dateAPI.getDate(token);
+  const storages = getState().userReducer.userStorages;
+  const userAddressesStorages = getState().userReducer.userAddressesStorages;
   dispatch(setAddressesAC(getDates));
+<<<<<<< HEAD
   dispatch(setLinksToMapsAC(selectedDate));
 >>>>>>> 24141e1... refactor: User storages
+=======
+  dispatch(setLinksToMapsAC({ selectedDate, storages, userAddressesStorages }));
+>>>>>>> 245386d... refactor: Address and user reducers
 };
 
 export const selectDateTC = (date) => (dispatch) => {
   dispatch(selectedDateAC(date));
 };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 export const addNewAddressTC = (formData, selectedDate) => async (dispatch) => {
@@ -227,6 +240,12 @@ export const addNewAddressTC = (address, selectedDate, storage, userId) => async
 >>>>>>> 1a7d319... add: Register with token
   dispatch(updateLinkToMapsAC({ selectedDate, storage, address }));
 >>>>>>> 4406587... refactor: update reducer + links
+=======
+export const addNewAddressTC = (address, selectedDate, storage, userId) => async (dispatch, getState) => {
+  const response = await dateAPI.newDate(selectedDate, address, storage, userId);
+  dispatch(addNewAddressAC({ selectedDate: response.data.date, address: response.data.address, storage }));
+  dispatch(updateLinkToMapsTC(selectedDate, storage, address));
+>>>>>>> 245386d... refactor: Address and user reducers
 };
 
 export const haveAddressTC = (date) => (dispatch) => {
@@ -243,6 +262,7 @@ export const deleteAddressTC = (index, selectedDate, storage, storages) => async
   const response = await dateAPI.deleteDate(index, selectedDate, storage, storages);
   if (response) {
     dispatch(deleteAddressAC({ index, selectedDate, storage, storages }));
+<<<<<<< HEAD
     dispatch(updateLinkToMapsAC({ selectedDate, storage }));
 >>>>>>> c27eb70... refactor: Delete
   }
@@ -250,14 +270,23 @@ export const deleteAddressTC = (index, selectedDate, storage, storages) => async
 
 export const updateLinkToMapsTC = (selectedDate) => (dispatch) => {
   dispatch(updateLinkToMapsAC({ selectedDate }));
+=======
+    dispatch(updateLinkToMapsTC(selectedDate, storage));
+  }
+};
+
+export const updateLinkToMapsTC = (selectedDate, storage, newAddress) => (dispatch, getState) => {
+  const userAddressesStorages = getState().userReducer.userAddressesStorages;
+  const storages = getState().userReducer.userStorages;
+  dispatch(updateLinkToMapsAC({ selectedDate, storage, newAddress, userAddressesStorages, storages }));
+};
+export const setLinksToMapsTC = (selectedDate) => (dispatch) => {
+  dispatch(setLinksToMapsAC({ selectedDate }));
+>>>>>>> 245386d... refactor: Address and user reducers
 };
 
 export const setStartPointTC = (startValue) => (dispatch) => {
   dispatch(setStartPointAC({ startValue }));
-};
-
-export const addNewAddressStorageTC = (address, storageName) => (dispatch) => {
-  dispatch(addNewAddressStorageAC({ address, storageName }));
 };
 
 export default addressReducer;

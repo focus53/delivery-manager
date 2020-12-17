@@ -6,13 +6,14 @@ import 'antd/dist/antd.css';
 
 import { Layout, Divider } from 'antd';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 const AuthPage = (props) => {
+
   const [register, setRegister] = useState(false);
 
   return (
-    <div>
+    <div style={{ height: '100%' }}>
       <Switch>
         <Route path="/auth">
           <Layout style={{ minHeight: '100%' }}>
@@ -36,7 +37,6 @@ const AuthPage = (props) => {
                 )}
               </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Delivery manager ©2020</Footer>
           </Layout>
         </Route>
         <Redirect to="/auth" />

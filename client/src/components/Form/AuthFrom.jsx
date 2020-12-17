@@ -18,7 +18,6 @@ const tailLayout = {
 
 const AuthForm = (props) => {
   const onFinish = (values) => {
-    console.log('Success:', values);
     props.loginTC(values.username, values.password);
   };
 
@@ -74,7 +73,7 @@ const AuthForm = (props) => {
                 Log In
               </Button>
 
-              <Button type="primary" style={{ margin: '10px' }} onClick={() => props.isRegister(true)}>
+              <Button type="primary" style={{ marginTop: '10px' }} onClick={() => props.isRegister(true)}>
                 Register
               </Button>
             </Form.Item>
