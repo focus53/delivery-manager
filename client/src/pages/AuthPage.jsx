@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Row, Col, Divider } from 'antd';
 import RegistrationForm from '../components/Form/RegistrationForm';
 import AuthForm from '../components/Form/AuthFrom';
 
