@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Row, Col, Button } from 'antd';
+import { Form, Input, Row, Col, Button, message } from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -36,7 +36,17 @@ const RegistrationForm = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    props.registerTC(values.email, values.password);
+    props.registerTC(values.email, values.password, warning);
+  };
+
+  const warning = (errorText) => {
+    message.warning({
+      content: errorText,
+      className: 'custom-class',
+      style: {
+        marginTop: '10vh',
+      },
+    });
   };
 
   return (

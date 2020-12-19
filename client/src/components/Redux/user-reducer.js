@@ -123,15 +123,14 @@ export const logoutTC = () => async (dispatch) => {
   localStorage.removeItem('userData');
 };
 
-export const registerTC = (userEmail, password) => async (dispatch) => {
+export const registerTC = (userEmail, password, warning) => async (dispatch) => {
   try {
     const registerUser = await userAPI.registerUser(userEmail, password);
     if (registerUser.status === 201) {
       dispatch(loginTC(userEmail, password));
     }
   } catch (e) {
-    console.log(e.response);
-    dispatch(loginErrorAC({ errorMassage: e.response.data.message }));
+    warning(e.response.data.message);
   }
 };
 
