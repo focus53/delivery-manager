@@ -27,10 +27,14 @@
 >>>>>>> 1a7d319... add: Register with token
     "materialize-css": "^1.0.0-rc.2",
     "mongoose": "^5.10.15",
+    "prettier": "^2.2.1",
     "react-router-dom": "^5.2.0"
 >>>>>>> 9871675... add: Login & Registration pages
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

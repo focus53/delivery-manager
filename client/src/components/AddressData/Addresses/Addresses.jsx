@@ -13,11 +13,9 @@ export const Addresses = (props) => {
               [`${props.storageArea}`].map((el, index) => (
                 <div key={index}>
                   {`${index + 1}: ${el}`}{' '}
-                  <Button
-                    icon={<MinusOutlined />}
-                    onClick={() => props.deleteAddress(index, `${props.storageArea}`)}
-                    size="small"
-                  ></Button>
+                  <Button onClick={() => props.deleteAddress(index, `${props.storageArea}`)} size="small">
+                    <MinusOutlined />
+                  </Button>
                 </div>
               ))}
         </p>

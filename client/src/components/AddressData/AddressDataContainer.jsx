@@ -17,13 +17,18 @@ function callback(key) {
 
 const AddressDataContainer = (props) => {
   const [addMode, setAddMode] = useState(false);
-  const [start, setStart] = useState('JAC');
+  const [start, setStart] = useState('');
 
   const handleSubmit = (e, street, streetNumber, postCode) => {
     e.preventDefault();
     setAddMode(false);
     let newAddressToString = `${street} ${streetNumber}, ${postCode}`;
-    props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId);
+    props.addNewAddressTC(
+      newAddressToString,
+      props.selectedDate,
+      start,
+      props.userId
+    );
   };
 
   const deleteAddress = (index, storage) => {
@@ -50,7 +55,11 @@ const AddressDataContainer = (props) => {
                 {props.storages.map((el, index) => (
                   <Panel
                     header={
-                      <CollapseHeader routing={props.routing} selectedDate={props.selectedDate} storageArea={el} />
+                      <CollapseHeader
+                        routing={props.routing}
+                        selectedDate={props.selectedDate}
+                        storageArea={el}
+                      />
                     }
                     key={index + 1}
                   >
@@ -74,7 +83,7 @@ const AddressDataContainer = (props) => {
           <Row gutter={[5, 5]}>
             <Button
               icon={addMode ? <MinusOutlined /> : <PlusOutlined />}
-              onClick={() => (addMode ? setAddMode(false) : setAddMode(true))}
+              onClick={() => setAddMode((prevState) => !prevState)}
             >
               Add new address
             </Button>
@@ -82,8 +91,12 @@ const AddressDataContainer = (props) => {
           <Row gutter={[5, 5]}>
             {addMode && (
               <div>
-                <Start onChange={changeHandler} start={start} storages={props.storages} />
-                <AddressForm handleSubmit={handleSubmit} />
+                <Start
+                  onChange={changeHandler}
+                  start={start}
+                  storages={props.storages}
+                />
+                <AddressForm handleSubmit={handleSubmit} start={start} />
               </div>
             )}
           </Row>

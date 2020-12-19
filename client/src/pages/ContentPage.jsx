@@ -60,7 +60,7 @@ const ContentPage = (props) => {
                   <Calendar />
                   <AddressDataContainer />
                 </Route>
-                <Route path="/settings"></Route>
+                <Route path="/settings"/>
                 <Route path="/storages">
                   <Storages />
                 </Route>

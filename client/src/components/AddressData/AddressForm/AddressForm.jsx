@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 const AddressFrom = (props) => {
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div>
       <form onSubmit={props.handleSubmit}>
         <div>
@@ -21,19 +22,36 @@ const AddressFrom = (props) => {
     </div>
 =======
     <form onSubmit={(e) => props.handleSubmit(e, street, streetNumber, postCode)}>
+=======
+    <form
+      onSubmit={(e) => props.handleSubmit(e, street, streetNumber, postCode)}
+    >
+>>>>>>> 4b9ed97... fix: Some errors
       <Input.Group size="small">
         <Row gutter={[5, 10]}>
           <Col span={12}>
-            <Input placeholder="Street" value={street} onChange={(e) => setStreet(e.target.value)} />
+            <Input
+              placeholder="Street"
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+            />
           </Col>
           <Col span={5}>
-            <Input placeholder="Number" value={streetNumber} onChange={(e) => setStreetNumber(e.target.value)} />
+            <Input
+              placeholder="Number"
+              value={streetNumber}
+              onChange={(e) => setStreetNumber(e.target.value)}
+            />
           </Col>
           <Col span={7}>
-            <Input placeholder="Postcode" value={postCode} onChange={(e) => setPostCode(e.target.value)} />
+            <Input
+              placeholder="Postcode"
+              value={postCode}
+              onChange={(e) => setPostCode(e.target.value)}
+            />
           </Col>
         </Row>
-        <Button type="primary" htmlType="submit">
+        <Button disabled={!props.start} type="primary" htmlType="submit">
           Submit <SendOutlined />
         </Button>
       </Input.Group>

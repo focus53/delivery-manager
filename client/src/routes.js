@@ -25,4 +25,6 @@ const mapStateToProps = (store) => {
   };
 };
 
+
+
 export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC })(Routes);

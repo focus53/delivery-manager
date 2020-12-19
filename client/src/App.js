@@ -28,7 +28,6 @@ import Routes from './Routes';
 >>>>>>> 4b9458d... add: Storages page
 
 function App() {
-  //const routes = useRoutes(false);
   return (
     <Provider store={store}>
 <<<<<<< HEAD

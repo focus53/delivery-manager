@@ -45,6 +45,12 @@ const deleteAddressAC = (payload) => {
 const updateLinkToMapsAC = (payload) => {
   return { type: UPDATE_LINK_TO_MAPS, payload };
 };
+<<<<<<< HEAD
+=======
+const setLinksToMapsAC = (payload) => {
+  return { type: SET_LINKS_TO_MAPS, payload };
+};
+>>>>>>> 4b9ed97... fix: Some errors
 const setStartPointAC = (payload) => {
   return { type: SET_START_POINT, payload };
 };
@@ -280,6 +286,7 @@ export const updateLinkToMapsTC = (selectedDate, storage, newAddress) => (dispat
   const storages = getState().userReducer.userStorages;
   dispatch(updateLinkToMapsAC({ selectedDate, storage, newAddress, userAddressesStorages, storages }));
 };
+
 export const setLinksToMapsTC = (selectedDate) => (dispatch) => {
   dispatch(setLinksToMapsAC({ selectedDate }));
 >>>>>>> 245386d... refactor: Address and user reducers

@@ -3,6 +3,7 @@ const Dates = require('../models/Date');
 const router = Router();
 const authMiddleware = require('../middleware/authMiddleware');
 
+<<<<<<< HEAD
 // /api
 
 <<<<<<< HEAD
@@ -22,6 +23,8 @@ router.get('/date', async (req, res) => {
 router.get('/', async (req, res) => {
 >>>>>>> c3ddac2... add: Handel User response in seever
 =======
+=======
+>>>>>>> 4b9ed97... fix: Some errors
 router.get('/', authMiddleware, async (req, res) => {
 >>>>>>> 46666bc... refactor: API with token
   try {
