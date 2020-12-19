@@ -9,20 +9,15 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.post('/login', async (req, res) => {
   try {
     const { userEmail, password } = req.body;
-
     const user = await User.findOne({ email: userEmail });
-
     if (!user) {
-      return res.status(400).json({ message: 'User not found!' });
+      return res.status(400).json({ message: 'Incorrect email or password!' });
     }
-
     const matchPassword = await bcrypt.compare(password, user.password);
-
     if (!matchPassword) {
       return res.status(400).json({ message: 'Incorrect email or password!' });
     }
     const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
-
     res
       .status(200)
       .json({ userId: user.id, token, userStorages: user.storages, userAddressesStorages: user.storagesAddresses });

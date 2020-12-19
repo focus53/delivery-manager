@@ -15,16 +15,20 @@ const Routes = (props) => {
   }
 
   return (
-    <AuthPage setAuthenticatedTC={props.setAuthenticatedTC} loginTC={props.loginTC} registerTC={props.registerTC} />
+    <AuthPage
+      setAuthenticatedTC={props.setAuthenticatedTC}
+      loginTC={props.loginTC}
+      registerTC={props.registerTC}
+      loginError={props.loginError}
+    />
   );
 };
 
 const mapStateToProps = (store) => {
   return {
     isAuthenticated: store.userReducer.isAuthenticated,
+    loginError: store.userReducer.loginError,
   };
 };
-
-
 
 export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC })(Routes);

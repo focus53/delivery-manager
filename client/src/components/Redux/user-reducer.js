@@ -32,12 +32,14 @@ const initialState = {
   token: null,
   userStorages: [],
   userAddressesStorages: [],
+  errorMassage: null,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case IS_AUTHENTICATED:
       return { ...state, isAuthenticated: action.payload.isAuth };
+
     case LOGIN:
       return {
         ...state,
@@ -46,10 +48,13 @@ const userReducer = (state = initialState, action) => {
         userStorages: action.payload.userStorages,
         userAddressesStorages: action.payload.userAddressesStorages,
       };
+
     case LOGIN_ERROR:
       return { ...state, loginError: action.payload.errorMassage };
+
     case LOGOUT:
       return { ...state, userId: null, token: null };
+
     case ADD_STORAGE:
       return {
         ...state,
@@ -66,7 +71,7 @@ export const setAuthenticatedTC = (isAuth) => (dispatch) => {
   dispatch(setAuthenticatedAC({ isAuth }));
 };
 
-export const loginTC = (userEmail, password) => async (dispatch, getState) => {
+export const loginTC = (userEmail, password, warning) => async (dispatch, getState) => {
   try {
     const response = await userAPI.getUser(userEmail, password);
     if (!!response.data.token) {
@@ -80,11 +85,17 @@ export const loginTC = (userEmail, password) => async (dispatch, getState) => {
       );
       dispatch(setAuthenticatedAC({ isAuth: true }));
 
-      localStorage.setItem('userData', JSON.stringify({ userId: response.data.userId, token: response.data.token }));
+      localStorage.setItem(
+        'userData',
+        JSON.stringify({
+          userId: response.data.userId,
+          token: response.data.token,
+        })
+      );
     }
   } catch (e) {
-    // dispatch(loginErrorAC({ errorMassage: e.response.data.message }));
-    // console.log(e.response.data.message);
+    dispatch(loginErrorAC({ errorMassage: e.response.data.message }));
+    warning(e.response.data.message);
   }
 };
 

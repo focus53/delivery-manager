@@ -9,7 +9,6 @@ import { Layout, Divider } from 'antd';
 const { Header, Content } = Layout;
 
 const AuthPage = (props) => {
-
   const [register, setRegister] = useState(false);
 
   return (
@@ -33,6 +32,7 @@ const AuthPage = (props) => {
                     isRegister={setRegister}
                     setAuthenticatedTC={props.setAuthenticatedTC}
                     loginTC={props.loginTC}
+                    loginError={props.loginError}
                   />
                 )}
               </div>
