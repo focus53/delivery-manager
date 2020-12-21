@@ -11,9 +11,7 @@ import { Addresses } from './Addresses/Addresses';
 
 const { Panel } = Collapse;
 
-function callback(key) {
-  return;
-}
+function callback(key) {}
 
 const AddressDataContainer = (props) => {
   const [addMode, setAddMode] = useState(false);
@@ -23,12 +21,7 @@ const AddressDataContainer = (props) => {
     e.preventDefault();
     setAddMode(false);
     let newAddressToString = `${street} ${streetNumber}, ${postCode}`;
-    props.addNewAddressTC(
-      newAddressToString,
-      props.selectedDate,
-      start,
-      props.userId
-    );
+    props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId);
   };
 
   const deleteAddress = (index, storage) => {
@@ -55,11 +48,7 @@ const AddressDataContainer = (props) => {
                 {props.storages.map((el, index) => (
                   <Panel
                     header={
-                      <CollapseHeader
-                        routing={props.routing}
-                        selectedDate={props.selectedDate}
-                        storageArea={el}
-                      />
+                      <CollapseHeader routing={props.routing} selectedDate={props.selectedDate} storageArea={el} />
                     }
                     key={index + 1}
                   >
@@ -91,11 +80,7 @@ const AddressDataContainer = (props) => {
           <Row gutter={[5, 5]}>
             {addMode && (
               <div>
-                <Start
-                  onChange={changeHandler}
-                  start={start}
-                  storages={props.storages}
-                />
+                <Start onChange={changeHandler} start={start} storages={props.storages} />
                 <AddressForm handleSubmit={handleSubmit} start={start} />
               </div>
             )}
@@ -106,14 +91,14 @@ const AddressDataContainer = (props) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (state) => {
   return {
-    selectedDate: store.addressReducer.selectedDate,
-    routing: store.addressReducer.routing,
-    mapsLink: store.addressReducer.mapsLink,
-    storages: store.userReducer.userStorages,
-    defaultLinks: store.mapsLink,
-    userId: store.userReducer.userId,
+    selectedDate: state.addressReducer.selectedDate,
+    routing: state.addressReducer.routing,
+    mapsLink: state.addressReducer.mapsLink,
+    storages: state.userReducer.userStorages,
+    defaultLinks: state.mapsLink,
+    userId: state.userReducer.userId,
   };
 };
 

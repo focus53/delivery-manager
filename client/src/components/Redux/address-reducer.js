@@ -232,6 +232,7 @@ export const selectDateTC = (date) => (dispatch) => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const addNewAddressTC = (formData, selectedDate) => async (dispatch) => {
   const response = await dateAPI.newDate(selectedDate, formData);
   dispatch(addNewAddressAC({ selectedDate: response.data.date, formData: response.data.address }));
@@ -248,6 +249,9 @@ export const addNewAddressTC = (address, selectedDate, storage, userId) => async
 >>>>>>> 4406587... refactor: update reducer + links
 =======
 export const addNewAddressTC = (address, selectedDate, storage, userId) => async (dispatch, getState) => {
+=======
+export const addNewAddressTC = (address, selectedDate, storage, userId) => async (dispatch) => {
+>>>>>>> 173b040... fix: some errors
   const response = await dateAPI.newDate(selectedDate, address, storage, userId);
   dispatch(addNewAddressAC({ selectedDate: response.data.date, address: response.data.address, storage }));
   dispatch(updateLinkToMapsTC(selectedDate, storage, address));

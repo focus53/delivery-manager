@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (e) {
-    res.status(500).json({ message: 'Something is wrong' });
+    res.status(500).json(e);
   }
 };
 

@@ -99,11 +99,12 @@ export const loginTC = (userEmail, password, warning) => async (dispatch, getSta
   }
 };
 
-export const isLoginTC = () => async (dispatch) => {
+export const isLoginTC = () => async (dispatch, getState) => {
   const userData = JSON.parse(localStorage.getItem('userData'));
 
   if (userData) {
     const user = await userAPI.getStorages(userData.token);
+
     dispatch(
       loginAC({
         userId: userData.userId,
@@ -112,6 +113,7 @@ export const isLoginTC = () => async (dispatch) => {
         userAddressesStorages: user.data.userAddressesStorages,
       })
     );
+
     dispatch(setAuthenticatedAC({ isAuth: !!userData.token }));
     dispatch(loginErrorAC({ errorMassage: '' }));
   }

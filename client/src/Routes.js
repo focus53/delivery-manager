@@ -1,7 +1,8 @@
 import 'antd/dist/antd.css';
 import React, { useEffect } from 'react';
-import AuthPage from './pages/AuthPage';
 import { connect } from 'react-redux';
+
+import AuthPage from './pages/AuthPage';
 import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from './components/Redux/user-reducer';
 import ContentPage from './pages/ContentPage';
 
