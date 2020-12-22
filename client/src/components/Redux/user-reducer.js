@@ -1,8 +1,9 @@
 import { userAPI } from '../../api/api';
 
-const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
-const LOGIN = 'LOGIN';
-const LOGIN_ERROR = 'LOGIN_ERROR';
+export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
+export const LOGIN = 'LOGIN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT = 'LOGOUT';
 const ADD_STORAGE = 'ADD_STORAGE';
 const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
@@ -25,6 +26,9 @@ const addStorageAC = (payload) => {
 const addNewAddressStorageAC = (payload) => {
   return { type: ADD_NEW_ADDRESS_STORAGE, payload };
 };
+const loginSuccessAC = (payload) => {
+  return { type: LOGIN_SUCCESS, payload };
+};
 
 const initialState = {
   isAuthenticated: false,
@@ -40,7 +44,7 @@ const userReducer = (state = initialState, action) => {
     case IS_AUTHENTICATED:
       return { ...state, isAuthenticated: action.payload.isAuth };
 
-    case LOGIN:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         userId: action.payload.userId,
@@ -71,32 +75,8 @@ export const setAuthenticatedTC = (isAuth) => (dispatch) => {
   dispatch(setAuthenticatedAC({ isAuth }));
 };
 
-export const loginTC = (userEmail, password, warning) => async (dispatch, getState) => {
-  try {
-    const response = await userAPI.getUser(userEmail, password);
-    if (!!response.data.token) {
-      dispatch(
-        loginAC({
-          userId: response.data.userId,
-          token: response.data.token,
-          userStorages: response.data.userStorages,
-          userAddressesStorages: response.data.userAddressesStorages,
-        })
-      );
-      dispatch(setAuthenticatedAC({ isAuth: true }));
-
-      localStorage.setItem(
-        'userData',
-        JSON.stringify({
-          userId: response.data.userId,
-          token: response.data.token,
-        })
-      );
-    }
-  } catch (e) {
-    dispatch(loginErrorAC({ errorMassage: e.response.data.message }));
-    warning(e.response.data.message);
-  }
+export const loginTC = (userEmail, password, warning) => async (dispatch) => {
+  dispatch(loginAC({ userEmail, password, warning }));
 };
 
 export const isLoginTC = () => async (dispatch, getState) => {
@@ -106,7 +86,7 @@ export const isLoginTC = () => async (dispatch, getState) => {
     const user = await userAPI.getStorages(userData.token);
 
     dispatch(
-      loginAC({
+      loginSuccessAC({
         userId: userData.userId,
         token: userData.token,
         userStorages: user.data.userStorages,
