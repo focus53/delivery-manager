@@ -1,27 +1,19 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-=======
-import React, { useState, useEffect } from 'react';
->>>>>>> 8b22fc3... refactor: Calendar to func comp
+import React from 'react';
 import ReactCalendar from 'react-calendar';
+import { connect } from 'react-redux';
+
 import 'react-calendar/dist/Calendar.css';
 import './OwnCalendar.css';
-import { connect } from 'react-redux';
 import { selectDateTC, setDateTC } from '../Redux/address-reducer';
 
-<<<<<<< HEAD
 class CalendarClass extends React.Component {
   constructor(props) {
     super(props);
     this.state = { selectedDate: new Date() };
   }
   componentDidMount() {
-<<<<<<< HEAD
-    this.props.setDateTC()
-=======
     this.props.setDateTC(this.state.selectedDate.toDateString(), this.props.token);
     this.props.selectDateTC(this.state.selectedDate.toDateString());
->>>>>>> 46666bc... refactor: API with token
   }
 
   handleChange(val) {
@@ -34,58 +26,26 @@ class CalendarClass extends React.Component {
   }
   render() {
     return (
-      <div className="asd">
-        <ReactCalendar
-          onChange={(val) => {
-            this.handleChange(val);
-          }}
-          value={this.selectedDate}
-          onClickDay={this.handleClick}
-          tileClassName={(obj) => {
-            return this.props.haveAddress.includes(obj.date.toDateString()) && 'haveAddress';
-          }}
-        />
-=======
-const Calendar = (props) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  useEffect(() => {
-    props.setDateTC(selectedDate.toDateString(), props.token);
-  }, [props.token]);
-
-  useEffect(() => {
-    props.selectDateTC(selectedDate.toDateString());
-  }, [selectedDate]);
-
-  const handleChange = (val) => {
-    setSelectedDate(val);
-  };
-
-  const handleClick = (value, event) => {
-    //props.haveAddressTC(value.toDateString());
-  };
-
-  return (
-    <div>
-      <div className="row">
-        <div className="col s12 m6">
-          <ReactCalendar
-            onChange={(val) => {
-              handleChange(val);
-            }}
-            value={selectedDate}
-            className="card blue-grey darken-1 ownStyleCalendar"
-            onClickDay={handleClick}
-            tileClassName={(obj) => {
-              return props.haveAddress.includes(obj.date.toDateString()) && 'haveAddress';
-            }}
-          />
+      <div>
+        <div className="row">
+          <div className="col s12 m6">
+            <ReactCalendar
+              onChange={(val) => {
+                this.handleChange(val);
+              }}
+              value={this.selectedDate}
+              className="card blue-grey darken-1 ownStyleCalendar"
+              onClickDay={this.handleClick}
+              tileClassName={(obj) => {
+                return this.props.haveAddress.includes(obj.date.toDateString()) && 'haveAddress';
+              }}
+            />
+          </div>
         </div>
->>>>>>> 8b22fc3... refactor: Calendar to func comp
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -95,4 +55,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { selectDateTC, setDateTC })(Calendar);
+export default connect(mapStateToProps, { selectDateTC, setDateTC })(CalendarClass);

@@ -2,8 +2,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, Row, Table } from 'antd';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { StorageForm } from '../AddressData/StorageForm/StorageForm';
 
+import { StorageForm } from '../AddressData/StorageForm/StorageForm';
 import { addStorageTC } from '../Redux/user-reducer';
 
 const Storages = (props) => {
@@ -23,8 +23,6 @@ const Storages = (props) => {
   const data = props.userStorages.map((el, index) => {
     return { key: index, name: el, address: props.userAddressesStorages[index] };
   });
-
-  
 
   const handleSubmitNewStorage = (e, street, streetNumber, postCode, storageName) => {
     e.preventDefault();

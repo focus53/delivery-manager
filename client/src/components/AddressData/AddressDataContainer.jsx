@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { AddressForm } from './AddressForm/AddressForm';
-import { addNewAddressTC, deleteAddressTC } from '../Redux/address-reducer';
 import { Row, Col, Divider, Collapse, Button } from 'antd';
-import Start from './Start/Start';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+
 import { MapsLink } from './MapsLink/MapsLink';
+import Start from './Start/Start';
 import { CollapseHeader } from './CollapseHeader/CollapseHeader';
 import { Addresses } from './Addresses/Addresses';
+import { AddressForm } from './AddressForm/AddressForm';
+import { addNewAddressTC, deleteAddressTC } from '../Redux/address-reducer';
 
 const { Panel } = Collapse;
 
