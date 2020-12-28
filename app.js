@@ -1,11 +1,11 @@
 const express = require('express');
-const config = require('config');
-const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
+const db = require('./models');
 
 require('dotenv').config();
 app.use(express.json({ extended: true }));
+
 app.use('/api/date', require('./routes/date.router'));
 app.use('/api/auth', require('./routes/auth.router'));
 
@@ -20,21 +20,9 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-async function start() {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    });
-
-    console.log('MongoDB connected...');
-  } catch (e) {
-    console.log('Server error', e.message);
-    process.exit(1);
-  }
-}
-
 app.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
 
-start();
+db.sequelize
+  .authenticate()
+  .then(() => console.log('Database connected...'))
+  .catch((error) => console.log(error));

@@ -25,8 +25,8 @@ const AddressDataContainer = (props) => {
     props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId);
   };
 
-  const deleteAddress = (index, storage) => {
-    props.deleteAddressTC(index, props.selectedDate, storage, props.storages);
+  const deleteAddress = (index, storage, deliveryId) => {
+    props.deleteAddressTC(index, props.selectedDate, storage, props.storages, deliveryId);
   };
 
   const changeHandler = (e) => {

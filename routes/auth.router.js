@@ -1,35 +1,48 @@
 const { Router } = require('express');
-const User = require('../models/User');
-const router = Router();
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const config = require('config');
 const authMiddleware = require('../middleware/authMiddleware');
+const models = require('../models');
 
+const router = Router();
+
+// api/auth/login
 router.post('/login', async (req, res) => {
   try {
     const { userEmail, password } = req.body;
-    const user = await User.findOne({ email: userEmail });
-    if (!user) {
+
+    const existUser = await models.User.findOne({
+      where: { email: userEmail },
+      include: [{ model: models.Storage, as: 'ownStorages' }],
+    });
+
+    if (!existUser) {
       return res.status(400).json({ message: 'Incorrect email or password!' });
     }
-    const matchPassword = await bcrypt.compare(password, user.password);
+
+    const matchPassword = await bcrypt.compare(password, existUser.password);
+
     if (!matchPassword) {
       return res.status(400).json({ message: 'Incorrect email or password!' });
     }
-    const token = jwt.sign({ userId: user.id }, config.get('jwtSecret'), { expiresIn: '1h' });
-    res
-      .status(200)
-      .json({ userId: user.id, token, userStorages: user.storages, userAddressesStorages: user.storagesAddresses });
+
+    const token = jwt.sign({ userId: existUser.id }, config.get('jwtSecret'), { expiresIn: '1h' });
+
+    const userStorages = existUser.ownStorages.map((stor) => stor.name);
+    const userAddressesStorages = existUser.ownStorages.map((stor) => stor.address);
+
+    res.status(200).json({ userId: existUser.id, token, userStorages, userAddressesStorages });
   } catch (e) {
     res.status(500).json(e.message);
   }
 });
 
+// api/auth/register
 router.post('/register', async (req, res) => {
   try {
     const { userEmail, password } = req.body;
-    const isExistUser = await User.findOne({ email: userEmail });
+    const isExistUser = await models.User.findOne({ where: { email: userEmail } });
 
     if (isExistUser) {
       return res.status(400).json({ message: 'User is already exist' });
@@ -37,8 +50,7 @@ router.post('/register', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newUser = await new User({ email: userEmail, password: hashedPassword });
-    newUser.save();
+    await models.User.create({ email: userEmail, password: hashedPassword });
 
     res.status(201).json({ message: 'User is created' });
   } catch (e) {
@@ -46,32 +58,35 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// api/auth/storage
 router.post('/storage', async (req, res) => {
   const { userId, newStorage, newAddressStorage } = req.body;
+
   try {
-    const user = await User.findById(userId);
-    console.log();
-
-    if (!user) {
-      return res.status(400).json({ message: 'User is undefined' });
-    }
-
-    user.storages.push(newStorage);
-    user.storagesAddresses.push(newAddressStorage);
-    user.save();
+    await models.Storage.create({ name: newStorage, address: newAddressStorage, userId });
     res.status(201).json({ message: 'Created' });
   } catch (e) {
     res.status(500).json({ message: 'Something wrong' });
   }
 });
 
+// api/auth/storage
 router.get('/storage', authMiddleware, async (req, res) => {
   const userId = req.user.userId;
+
   if (!userId) {
     res.status(400).json({ message: 'User is undefined' });
   }
-  const user = await User.findById(userId);
-  res.status(200).json({ userStorages: user.storages, userAddressesStorages: user.storagesAddresses });
+
+  const user = await models.User.findOne({
+    where: { id: userId },
+    include: { model: models.Storage, as: 'ownStorages' },
+  });
+
+  const userStorages = user.ownStorages.map((stor) => stor.name);
+  const userAddressesStorages = user.ownStorages.map((stor) => stor.address);
+
+  res.status(200).json({ userStorages, userAddressesStorages });
 });
 
 module.exports = router;

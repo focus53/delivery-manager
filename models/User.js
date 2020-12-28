@@ -1,10 +1,25 @@
-const { Schema, model, Types } = require('mongoose');
+const { Sequelize, Model } = require('sequelize');
 
-const schema = new Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  storages: { type: Array },
-  storagesAddresses: { type: Array },
-});
+class User extends Model {}
 
-module.exports = model('User', schema);
+module.exports = (sequelize, dataTypes) => {
+  User.init(
+    {
+      id: { type: Sequelize.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
+      email: { type: Sequelize.STRING, allowNull: false, unique: true },
+      password: { type: Sequelize.STRING, allowNull: false },
+    },
+    {
+      // Other model options go here
+      sequelize, // We need to pass the connection instance
+      modelName: 'User', // We need to choose the model name
+      timestamps: false,
+    }
+  );
+
+  User.associate = (models) => {
+    User.hasMany(models.Storage, { as: 'ownStorages' });
+  };
+
+  return User;
+};

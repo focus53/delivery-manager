@@ -1,13 +1,43 @@
 const { Router } = require('express');
-const Dates = require('../models/Date');
-const router = Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const models = require('../models');
 
-// /api
+const router = Router();
 
+// /api/date/
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const date = await Dates.find({ owner: req.user.userId });
+    const storagesWithDelivery = await models.Storage.findAll({
+      where: { userId: req.user.userId },
+      include: { model: models.Delivery, as: 'Delivery' },
+    });
+
+    const storageId = storagesWithDelivery.map((storEl) => storEl.id);
+
+    const ownDates = await models.Delivery.findAll({
+      where: { storageId },
+      // include: { model: models.Storage, as: 'Storage' },
+    }).then((dates) => dates.map((dateEl) => dateEl.date));
+
+    let ownDatesFiltered = [];
+
+    ownDates.forEach((dateEl) => {
+      const isExist = ownDatesFiltered.find((el) => el === dateEl);
+      if (!isExist) {
+        ownDatesFiltered.push(dateEl);
+      }
+    });
+
+    const date = ownDatesFiltered.map((dateEl) => {
+      let resultData = { date: dateEl };
+
+      storagesWithDelivery.forEach((storEl) => {
+        resultData[storEl.name] = storEl.Delivery.filter((delEl) => {
+          return delEl.date === dateEl;
+        });
+      });
+      return resultData;
+    });
 
     res.status(200).json({ date });
   } catch (e) {
@@ -15,69 +45,44 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-router.get('/:date', async (req, res) => {
-  try {
-    const date = await Dates.find({ date: req.params.date });
-    res.status(200).json({ date: date[0] });
-  } catch (e) {
-    res.status(500).json(e.message);
-  }
-});
-
-router.post('/', async (req, res) => {
+// /api/date
+router.post('/create_address', async (req, res) => {
   try {
     const { date, address, storage, userId } = req.body;
 
-    let isExistDate = await Dates.find({ owner: userId });
+    const existStorage = await models.Storage.findOne({
+      where: { userId, name: storage },
+    });
 
-    if (isExistDate) {
-      const isMatchDate = isExistDate.find((el) => {
-        return el.date === date;
-      });
-      if (isMatchDate) {
-        let toObj = isMatchDate.toObject();
-        if (toObj[storage]) {
-          toObj[storage].push(address);
-          await Dates.updateOne({ date }, { $set: { [storage]: toObj[storage] } });
-          return res.status(201).json({ date, address, storage });
-        }
-        await Dates.updateOne({ date }, { $set: { [storage]: [address] } });
-        return res.status(201).json({ date, address, storage });
-      }
-    }
+    const newDelivery = await models.Delivery.create({ address, date, storageId: existStorage.id });
 
-    const newDate = await new Dates({ date, [storage]: [address], owner: userId });
-    await newDate.save();
-    res.status(201).json({ date, address });
+    res.status(201).json({ message: 'Created new address', newDelivery, storage });
   } catch (e) {
     res.status(500).json(e.message);
   }
 });
 
+// /api/date/delete_address
 router.post('/delete_address', async (req, res) => {
   try {
     const { index, selectedDate, storage, storages } = req.body;
 
-    const existDate = await Dates.findOne({ date: selectedDate });
+    await models.Delivery.destroy({ where: { id: index } });
 
-    if (existDate) {
-      let toObjDate = existDate.toObject();
-      toObjDate[storage].splice(index, 1);
+    res.status(204).json({ message: 'Date deleted' });
+  } catch (e) {
+    res.status(500).json(e.message);
+  }
+});
 
-      let existingStorages = Object.keys(toObjDate).filter((element) =>
-        storages.some((el) => el === element) ? true : false
-      );
+// /api/date/asd
+router.get('/asd', async (req, res) => {
+  try {
+    const response = await models.Delivery.findAll({
+      where: { StorageId: 16 },
+    });
 
-      if (existingStorages.every((element) => toObjDate[element].length === 0)) {
-        await Dates.deleteOne({ date: selectedDate });
-        return res.status(200).json({ message: 'Date deleted' });
-      }
-
-      await Dates.updateOne({ date: selectedDate }, { $set: { [storage]: toObjDate[storage] } });
-      return res.status(200).json({ message: 'Address deleted' });
-    }
-
-    res.status(400).json({ message: 'Date not found' });
+    res.status(200).json({ response });
   } catch (e) {
     res.status(500).json(e.message);
   }

@@ -10,14 +10,16 @@ export const Addresses = (props) => {
           {props.routing.find((el) => el.date === props.selectedDate)[`${props.storageArea}`] &&
             props.routing
               .find((el) => el.date === props.selectedDate)
-              [`${props.storageArea}`].map((el, index) => (
-                <div key={index}>
-                  {`${index + 1}: ${el}`}{' '}
-                  <Button onClick={() => props.deleteAddress(index, `${props.storageArea}`)} size="small">
-                    <MinusOutlined />
-                  </Button>
-                </div>
-              ))}
+              [`${props.storageArea}`].map((el, index) => {
+                return (
+                  <div key={index}>
+                    {`${index + 1}: ${el.address}`}{' '}
+                    <Button onClick={() => props.deleteAddress(index, `${props.storageArea}`, el.id)} size="small">
+                      <MinusOutlined />
+                    </Button>
+                  </div>
+                );
+              })}
         </p>
       )}
     </>

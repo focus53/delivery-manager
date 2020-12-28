@@ -50,7 +50,7 @@ const addressReducer = (state = initialState, action) => {
     case ADD_NEW_ADDRESS:
       let newAddress = {
         date: action.payload.selectedDate,
-        [action.payload.storage]: [action.payload.address],
+        [action.payload.storage]: [action.payload.delivery],
       };
 
       if (state.routing.some((obj) => obj.date === action.payload.selectedDate)) {
@@ -62,10 +62,10 @@ const addressReducer = (state = initialState, action) => {
                 if (obj[action.payload.storage]) {
                   return {
                     ...obj,
-                    [action.payload.storage]: [...obj[action.payload.storage], action.payload.address],
+                    [action.payload.storage]: [...obj[action.payload.storage], action.payload.delivery],
                   };
                 }
-                return { ...obj, [action.payload.storage]: [action.payload.address] };
+                return { ...obj, [action.payload.storage]: [action.payload.delivery] };
               }
               return obj;
             }),
@@ -113,7 +113,7 @@ const addressReducer = (state = initialState, action) => {
                   state.baseURL +
                   action.payload.userAddressesStorages[index] +
                   obj[element].reduce((acc, currentVal) => {
-                    return `${acc}/${currentVal}`;
+                    return `${acc}/${currentVal.address}`;
                   }, '');
               }
             });
@@ -144,7 +144,7 @@ const addressReducer = (state = initialState, action) => {
                 state.baseURL +
                 action.payload.userAddressesStorages[index] +
                 obj[action.payload.storage].reduce((acc, currentVal) => {
-                  return `${acc}/${currentVal}`;
+                  return `${acc}/${currentVal.address}`;
                 }, '');
 
               return { ...obj, mapsLinks: { ...obj.mapsLinks, [action.payload.storage]: newLink } };
@@ -180,16 +180,20 @@ export const selectDateTC = (date) => (dispatch) => {
 
 export const addNewAddressTC = (address, selectedDate, storage, userId) => async (dispatch, getState) => {
   const response = await dateAPI.newDate(selectedDate, address, storage, userId);
-  dispatch(addNewAddressAC({ selectedDate: response.data.date, address: response.data.address, storage }));
-  dispatch(updateLinkToMapsTC(selectedDate, storage, address));
+  if (response) {
+    dispatch(
+      addNewAddressAC({ selectedDate: response.data.newDelivery.date, delivery: response.data.newDelivery, storage })
+    );
+    dispatch(updateLinkToMapsTC(selectedDate, storage, address));
+  }
 };
 
 export const haveAddressTC = (date) => (dispatch) => {
   dispatch(haveAddressAC(date));
 };
 
-export const deleteAddressTC = (index, selectedDate, storage, storages) => async (dispatch) => {
-  const response = await dateAPI.deleteDate(index, selectedDate, storage, storages);
+export const deleteAddressTC = (index, selectedDate, storage, storages, deliveryId) => async (dispatch) => {
+  const response = await dateAPI.deleteDate(deliveryId);
   if (response) {
     dispatch(deleteAddressAC({ index, selectedDate, storage, storages }));
     dispatch(updateLinkToMapsTC(selectedDate, storage));
