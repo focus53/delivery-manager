@@ -9,14 +9,13 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     const storagesWithDelivery = await models.Storage.findAll({
       where: { userId: req.user.userId },
-      include: { model: models.Delivery, as: 'Delivery' },
+      include: { model: models.Delivery, as: 'ownDeliveries' },
     });
 
-    const storageId = storagesWithDelivery.map((storEl) => storEl.id);
+    const storageId = storagesWithDelivery.map((storageEl) => storageEl.id);
 
     const ownDates = await models.Delivery.findAll({
       where: { storageId },
-      // include: { model: models.Storage, as: 'Storage' },
     }).then((dates) => dates.map((dateEl) => dateEl.date));
 
     let ownDatesFiltered = [];
@@ -32,7 +31,7 @@ router.get('/', authMiddleware, async (req, res) => {
       let resultData = { date: dateEl };
 
       storagesWithDelivery.forEach((storEl) => {
-        resultData[storEl.name] = storEl.Delivery.filter((delEl) => {
+        resultData[storEl.name] = storEl.ownDeliveries.filter((delEl) => {
           return delEl.date === dateEl;
         });
       });
@@ -78,8 +77,9 @@ router.post('/delete_address', async (req, res) => {
 // /api/date/asd
 router.get('/asd', async (req, res) => {
   try {
-    const response = await models.Delivery.findAll({
-      where: { StorageId: 16 },
+    const response = await models.Storage.findAll({
+      where: { id: 1 },
+      include: { model: models.User, as: 'ownUser' },
     });
 
     res.status(200).json({ response });

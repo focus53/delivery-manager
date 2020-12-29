@@ -2,11 +2,15 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('storages', {
+    await queryInterface.createTable('storages', {
       id: { type: Sequelize.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       name: { type: Sequelize.STRING, allowNull: false },
       address: { type: Sequelize.STRING, allowNull: false },
-      userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: { tableName: 'users' }, key: 'id' } },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: { tableName: 'users' }, key: 'id' },
+      },
     });
     /**
      * Add altering commands here.
@@ -17,7 +21,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('storages');
+    await queryInterface.dropTable('storages');
     /**
      * Add reverting commands here.
      *

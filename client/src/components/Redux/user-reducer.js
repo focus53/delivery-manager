@@ -6,7 +6,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT = 'LOGOUT';
 const ADD_STORAGE = 'ADD_STORAGE';
-const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
 
 const setAuthenticatedAC = (payload) => {
   return { type: IS_AUTHENTICATED, payload };
@@ -22,9 +21,6 @@ const logoutAC = (payload) => {
 };
 const addStorageAC = (payload) => {
   return { type: ADD_STORAGE, payload };
-};
-const addNewAddressStorageAC = (payload) => {
-  return { type: ADD_NEW_ADDRESS_STORAGE, payload };
 };
 const loginSuccessAC = (payload) => {
   return { type: LOGIN_SUCCESS, payload };

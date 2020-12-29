@@ -18,7 +18,7 @@ module.exports = (sequelize, dataTypes) => {
   );
 
   User.associate = (models) => {
-    User.hasMany(models.Storage, { as: 'ownStorages' });
+    User.hasMany(models.Storage, { as: 'ownStorages', foreignKey: 'userId' });
   };
 
   return User;

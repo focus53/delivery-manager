@@ -19,8 +19,8 @@ module.exports = (sequelize, dataTypes) => {
   );
 
   Storage.associate = function (models) {
-    Storage.belongsTo(models.User, { as: 'User' });
-    Storage.hasMany(models.Delivery, { as: 'Delivery' });
+    Storage.belongsTo(models.User, { as: 'ownUser', foreignKey: 'id' });
+    Storage.hasMany(models.Delivery, { as: 'ownDeliveries', foreignKey: 'storageId' });
   };
 
   return Storage;

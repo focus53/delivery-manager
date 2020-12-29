@@ -18,7 +18,7 @@ module.exports = (sequelize, dataTypes) => {
     }
   );
   Delivery.associate = function (models) {
-    Delivery.belongsTo(models.Storage, { as: 'Storage' });
+    Delivery.belongsTo(models.Storage, { as: 'ownStorage', foreignKey: 'id' });
   };
 
   return Delivery;
