@@ -9,7 +9,7 @@ module.exports = {
       storageId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: { tableName: 'storages' }, key: 'id' },
+        references: { model: { tableName: 'Storages' }, key: 'id' },
       },
     });
     /**
