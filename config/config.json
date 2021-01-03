@@ -18,10 +18,13 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "uowxbrlgekomju",
+    "password": "2064ea7d404e104b228988fee9ba7bd77ce70613356440841cfd4e6c79b2be9f",
+    "database": "d2gs8ctprvk1ga",
+    "host": "ec2-34-253-148-186.eu-west-1.compute.amazonaws.com",
+    "dialect": "postgres",
+    "use_env_variable": "DATABASE_URL",
+    "logging": false,
+    "timestamps": false
   }
 }
