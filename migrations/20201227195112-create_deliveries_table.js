@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('deliveries', {
+    await queryInterface.createTable('Deliveries', {
       id: { type: Sequelize.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       address: { type: Sequelize.STRING, allowNull: false },
       date: { type: Sequelize.STRING, allowNull: false },
@@ -21,7 +21,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('deliveries');
+    await queryInterface.dropTable('Deliveries');
     /**
      * Add reverting commands here.
      *

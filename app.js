@@ -3,8 +3,6 @@ const path = require('path');
 const app = express();
 const db = require('./models');
 
-// const sequelize = require('./database');
-
 require('dotenv').config();
 app.use(express.json({ extended: true }));
 
