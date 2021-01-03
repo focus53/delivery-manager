@@ -14,6 +14,7 @@ function* sagaWorker(action) {
       JSON.stringify({
         userId: response.data.userId,
         token: response.data.token,
+        userEmail: response.data.userEmail,
       })
     );
 
@@ -24,6 +25,7 @@ function* sagaWorker(action) {
         token: response.data.token,
         userStorages: response.data.userStorages,
         userAddressesStorages: response.data.userAddressesStorages,
+        userEmail: response.data.userEmail,
       },
     });
     yield put({ type: IS_AUTHENTICATED, payload: { isAuth: true } });

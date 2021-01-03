@@ -33,16 +33,21 @@ const ContentPage = (props) => {
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            <Menu.Item key="0" disabled={true}>
+              {props.userEmail}
+            </Menu.Item>
+            <Menu.Divider />
+
             <Menu.Item key="1" icon={<CalendarOutlined />}>
               <NavLink to={`/calendar`}>Calendar</NavLink>
             </Menu.Item>
+
             <Menu.Item key="2" icon={<HomeOutlined />}>
               <NavLink to="/storages">Storages</NavLink>
             </Menu.Item>
             <Menu.Item key="3" icon={<SettingOutlined />}>
               <NavLink to="/settings">Settings</NavLink>
             </Menu.Item>
-
             <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
               <Menu.Item key="4">Team 1</Menu.Item>
               <Menu.Item key="5">Team 2</Menu.Item>
@@ -60,7 +65,7 @@ const ContentPage = (props) => {
                   <Calendar />
                   <AddressDataContainer />
                 </Route>
-                <Route path="/settings"/>
+                <Route path="/settings" />
                 <Route path="/storages">
                   <Storages />
                 </Route>
@@ -78,6 +83,7 @@ const mapStateToProps = (store) => {
   return {
     isAuthenticated: store.userReducer.isAuthenticated,
     userId: store.userReducer.userId,
+    userEmail: store.userReducer.userEmail,
   };
 };
 

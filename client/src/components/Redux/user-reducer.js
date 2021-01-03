@@ -29,6 +29,7 @@ const loginSuccessAC = (payload) => {
 const initialState = {
   isAuthenticated: false,
   userId: null,
+  userEmail: null,
   token: null,
   userStorages: [],
   userAddressesStorages: [],
@@ -43,6 +44,7 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
+        userEmail: action.payload.userEmail,
         userId: action.payload.userId,
         token: action.payload.token,
         userStorages: action.payload.userStorages,
@@ -85,6 +87,7 @@ export const isLoginTC = () => async (dispatch, getState) => {
       loginSuccessAC({
         userId: userData.userId,
         token: userData.token,
+        userEmail: userData.userEmail,
         userStorages: user.data.userStorages,
         userAddressesStorages: user.data.userAddressesStorages,
       })

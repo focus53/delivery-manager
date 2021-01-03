@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
     const userStorages = existUser.ownStorages.map((stor) => stor.name);
     const userAddressesStorages = existUser.ownStorages.map((stor) => stor.address);
 
-    res.status(200).json({ userId: existUser.id, token, userStorages, userAddressesStorages });
+    res.status(200).json({ userId: existUser.id, token, userStorages, userAddressesStorages, userEmail });
   } catch (e) {
     res.status(500).json(e.message);
   }
