@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Divider, Layout, Menu } from 'antd';
+import { Row, Col, Divider, Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -9,6 +9,7 @@ import Calendar from './../components/Calendar/Calendar';
 import AddressDataContainer from './../components/AddressData/AddressDataContainer';
 import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from '../components/Redux/user-reducer';
 import Storages from '../components/Storages/Storages';
+import TableAddressData from '../components/TableAddressData/TableAddressData';
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -62,8 +63,15 @@ const ContentPage = (props) => {
             <div style={{ padding: 25, minHeight: 360 }}>
               <Switch>
                 <Route path="/calendar/:userId?">
-                  <Calendar />
-                  <AddressDataContainer />
+                  <Row gutter={25}>
+                    <Col span={6}>
+                      <Calendar />
+                      <AddressDataContainer />
+                    </Col>
+                    <Col span={18}>
+                      <TableAddressData />
+                    </Col>
+                  </Row>
                 </Route>
                 <Route path="/settings" />
                 <Route path="/storages">
