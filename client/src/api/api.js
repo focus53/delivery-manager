@@ -43,4 +43,8 @@ export const userAPI = {
   getStorages(token) {
     return axios.get('api/auth/storage', { headers: { Authorization: `Bearer ${token}` } });
   },
+
+  deleteStorage(storageName) {
+    return axios.post('api/auth/delete_storage', { storageName });
+  },
 };

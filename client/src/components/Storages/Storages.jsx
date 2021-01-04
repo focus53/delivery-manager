@@ -1,10 +1,10 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Row, Table } from 'antd';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { StorageForm } from '../AddressData/StorageForm/StorageForm';
-import { addStorageTC } from '../Redux/user-reducer';
+import { addStorageTC, deleteStorageTC } from '../Redux/user-reducer';
 
 const Storages = (props) => {
   const [addModeStorage, setAddModeStorage] = useState(false);
@@ -18,11 +18,24 @@ const Storages = (props) => {
       title: 'Address',
       dataIndex: 'address',
     },
+    {
+      title: '',
+      dataIndex: 'deleteField',
+    },
   ];
 
-  const data = props.userStorages.map((el, index) => {
-    return { key: index, name: el, address: props.userAddressesStorages[index] };
+  const tableData = props.userStorages.map((el, index) => {
+    return {
+      key: index,
+      name: el,
+      address: props.userAddressesStorages[index],
+      deleteField: <Button onClick={() => handleDeleteStorage(el)} icon={<DeleteOutlined />} />,
+    };
   });
+
+  const handleDeleteStorage = (el) => {
+    props.deleteStorageTC(el);
+  };
 
   const handleSubmitNewStorage = (e, street, streetNumber, postCode, storageName) => {
     e.preventDefault();
@@ -33,7 +46,7 @@ const Storages = (props) => {
   return (
     <div>
       <div style={{ width: '50%', marginBottom: '10px' }}>
-        <Table columns={columns} dataSource={data} pagination={false} bordered />
+        <Table columns={columns} dataSource={tableData} pagination={false} bordered />
       </div>
       <Row gutter={[5, 5]}>
         <Button
@@ -56,4 +69,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addStorageTC })(Storages);
+export default connect(mapStateToProps, { addStorageTC, deleteStorageTC })(Storages);

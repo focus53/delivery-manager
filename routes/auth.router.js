@@ -89,4 +89,23 @@ router.get('/storage', authMiddleware, async (req, res) => {
   res.status(200).json({ userStorages, userAddressesStorages });
 });
 
+// api/auth/delete_storage
+router.post('/delete_storage', async (req, res) => {
+  try {
+    const { storageName } = req.body;
+
+    const storageToDelete = await models.Storage.findOne({ where: { name: storageName } });
+
+    await models.Delivery.destroy({
+      where: { storageId: storageToDelete.dataValues.id },
+    });
+
+    await models.Storage.destroy({ where: { id: storageToDelete.dataValues.id } });
+
+    res.status(201).json({ message: 'Storage deleted', storageToDelete: storageToDelete.dataValues });
+  } catch (e) {
+    res.status(500).json(e.message);
+  }
+});
+
 module.exports = router;

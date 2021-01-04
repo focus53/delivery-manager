@@ -6,6 +6,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 const LOGOUT = 'LOGOUT';
 const ADD_STORAGE = 'ADD_STORAGE';
+const DELETE_STORAGE = 'DELETE_STORAGE';
 
 const setAuthenticatedAC = (payload) => {
   return { type: IS_AUTHENTICATED, payload };
@@ -24,6 +25,9 @@ const addStorageAC = (payload) => {
 };
 const loginSuccessAC = (payload) => {
   return { type: LOGIN_SUCCESS, payload };
+};
+const deleteStorageAC = (payload) => {
+  return { type: DELETE_STORAGE, payload };
 };
 
 const initialState = {
@@ -62,6 +66,15 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userStorages: [...state.userStorages, action.payload.newStorage],
         userAddressesStorages: [...state.userAddressesStorages, action.payload.newAddressStorage],
+      };
+
+    case DELETE_STORAGE:
+      return {
+        ...state,
+        userStorages: state.userStorages.filter((el) => el !== action.payload.storageToDelete.name),
+        userAddressesStorages: state.userAddressesStorages.filter(
+          (el) => el !== action.payload.storageToDelete.address
+        ),
       };
 
     default:
@@ -120,6 +133,12 @@ export const addStorageTC = (newStorage, newAddressStorage, userId) => async (di
   if (response.status === 201) {
     dispatch(addStorageAC({ newStorage, newAddressStorage }));
   }
+};
+
+export const deleteStorageTC = (storageName) => async (dispatch) => {
+  const response = await userAPI.deleteStorage(storageName);
+
+  dispatch(deleteStorageAC({ storageToDelete: response.data.storageToDelete }));
 };
 
 export default userReducer;
