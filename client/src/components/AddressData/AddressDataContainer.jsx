@@ -8,15 +8,17 @@ import Start from './Start/Start';
 import { CollapseHeader } from './CollapseHeader/CollapseHeader';
 import { Addresses } from './Addresses/Addresses';
 import { AddressForm } from './AddressForm/AddressForm';
-import { addNewAddressTC, deleteAddressTC } from '../Redux/address-reducer';
+import { addNewAddressTC, deleteAddressTC, selectedStorageTC } from '../Redux/address-reducer';
 
 const { Panel } = Collapse;
-
-function callback(key) {}
 
 const AddressDataContainer = (props) => {
   const [addMode, setAddMode] = useState(false);
   const [start, setStart] = useState('');
+
+  const callback = (key) => {
+    props.selectedStorageTC(key);
+  };
 
   const handleSubmit = (e, street, streetNumber, postCode) => {
     e.preventDefault();
@@ -51,7 +53,7 @@ const AddressDataContainer = (props) => {
                     header={
                       <CollapseHeader routing={props.routing} selectedDate={props.selectedDate} storageArea={el} />
                     }
-                    key={index + 1}
+                    key={el}
                   >
                     <Addresses
                       routing={props.routing}
@@ -106,4 +108,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   addNewAddressTC,
   deleteAddressTC,
+  selectedStorageTC,
 })(AddressDataContainer);

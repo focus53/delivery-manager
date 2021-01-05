@@ -9,6 +9,7 @@ const SET_LINKS_TO_MAPS = 'SET_LINKS_TO_MAPS';
 const SET_START_POINT = 'SET_START_POINT';
 const SET_ADDRESSES = 'SET_ADDRESSES';
 const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
+const SELECTED_STORAGE = 'SELECTED_STORAGE';
 
 const initialState = {
   baseURL: 'https://www.google.com/maps/dir/',
@@ -16,6 +17,7 @@ const initialState = {
   routing: [],
   haveAddress: [],
   mapsLink: {},
+  selectedStorage: null,
 };
 
 // Action creators
@@ -39,6 +41,9 @@ const setLinksToMapsAC = (payload) => {
 };
 const setAddressesAC = (payload) => {
   return { type: SET_ADDRESSES, payload };
+};
+const selectedStorageAC = (payload) => {
+  return { type: SELECTED_STORAGE, payload };
 };
 
 // Reducer
@@ -160,6 +165,9 @@ const addressReducer = (state = initialState, action) => {
         mapsLink: { ...state.mapsLink, [action.payload.storageName]: state.baseURL + action.payload.address },
       };
 
+    case SELECTED_STORAGE:
+      return { ...state, selectedStorage: action.payload.key };
+
     default:
       return state;
   }
@@ -208,6 +216,10 @@ export const updateLinkToMapsTC = (selectedDate, storage, newAddress) => (dispat
 
 export const setLinksToMapsTC = (selectedDate) => (dispatch) => {
   dispatch(setLinksToMapsAC({ selectedDate }));
+};
+
+export const selectedStorageTC = (key) => (dispatch) => {
+  dispatch(selectedStorageAC({ key }));
 };
 
 export default addressReducer;
