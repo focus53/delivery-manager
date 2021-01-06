@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Tag, Card, Timeline, Button } from 'antd';
 import { connect } from 'react-redux';
-import { MinusOutlined } from '@ant-design/icons';
 
 const tabList = [
   {
@@ -70,13 +69,13 @@ const columns = [
   },
   {
     title: 'Time',
-    dataIndex: 'time',
-    key: 'time',
+    dataIndex: 'timeDelivery',
+    key: 'timeDelivery',
   },
   {
-    title: 'Descriptions',
-    dataIndex: 'descriptions',
-    key: 'descriptions',
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
   },
 ];
 
@@ -86,7 +85,11 @@ const TableAddressData = (props) => {
   const data =
     props.routing.some((el) => el.date === props.selectedDate) &&
     props.routing.find((el) => el.date === props.selectedDate)[props.selectedStorage] &&
-    props.routing.find((el) => el.date === props.selectedDate)[props.selectedStorage];
+    props.routing
+      .find((el) => el.date === props.selectedDate)
+      [props.selectedStorage].sort((a, b) => {
+        return parseInt(a.timeDelivery) - parseInt(b.timeDelivery);
+      });
 
   return (
     <>
@@ -102,7 +105,7 @@ const TableAddressData = (props) => {
         {tab === 'timeline' && (
           <Timeline mode="left">
             {data.map((el) => {
-              return <Timeline.Item label={el.time}>{el.address}</Timeline.Item>;
+              return <Timeline.Item label={el.timeDelivery}>{el.address}</Timeline.Item>;
             })}
           </Timeline>
         )}

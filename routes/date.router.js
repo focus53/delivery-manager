@@ -47,13 +47,20 @@ router.get('/', authMiddleware, async (req, res) => {
 // /api/date
 router.post('/create_address', async (req, res) => {
   try {
-    const { date, address, storage, userId } = req.body;
+    const { date, address, storage, userId, timeDelivery, load, description } = req.body;
 
     const existStorage = await models.Storage.findOne({
       where: { userId, name: storage },
     });
 
-    const newDelivery = await models.Delivery.create({ address, date, storageId: existStorage.id });
+    const newDelivery = await models.Delivery.create({
+      address,
+      date,
+      timeDelivery,
+      load,
+      description,
+      storageId: existStorage.id,
+    });
 
     res.status(201).json({ message: 'Created new address', newDelivery, storage });
   } catch (e) {

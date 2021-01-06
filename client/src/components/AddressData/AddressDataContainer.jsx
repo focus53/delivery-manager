@@ -20,11 +20,12 @@ const AddressDataContainer = (props) => {
     props.selectedStorageTC(key);
   };
 
-  const handleSubmit = (e, street, streetNumber, postCode) => {
+  const handleSubmit = (e, street, streetNumber, postCode, timeDelivery, load, description) => {
     e.preventDefault();
+    debugger;
     setAddMode(false);
     let newAddressToString = `${street} ${streetNumber}, ${postCode}`;
-    props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId);
+    props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId, timeDelivery, load, description);
   };
 
   const deleteAddress = (index, storage, deliveryId) => {

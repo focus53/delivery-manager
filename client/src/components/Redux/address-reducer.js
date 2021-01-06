@@ -186,8 +186,10 @@ export const selectDateTC = (date) => (dispatch) => {
   dispatch(selectedDateAC(date));
 };
 
-export const addNewAddressTC = (address, selectedDate, storage, userId) => async (dispatch, getState) => {
-  const response = await dateAPI.newDate(selectedDate, address, storage, userId);
+export const addNewAddressTC = (address, selectedDate, storage, userId, timeDelivery, load, description) => async (
+  dispatch
+) => {
+  const response = await dateAPI.newDate(selectedDate, address, storage, userId, timeDelivery, load, description);
   if (response) {
     dispatch(
       addNewAddressAC({ selectedDate: response.data.newDelivery.date, delivery: response.data.newDelivery, storage })

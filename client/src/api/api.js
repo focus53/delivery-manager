@@ -10,10 +10,12 @@ export const dateAPI = {
     });
   },
 
-  newDate(date, address, storage, userId) {
-    return axios.post('/api/date/create_address', { date, address, storage, userId }).then((res) => {
-      return res;
-    });
+  newDate(date, address, storage, userId, timeDelivery, load, description) {
+    return axios
+      .post('/api/date/create_address', { date, address, storage, userId, timeDelivery, load, description })
+      .then((res) => {
+        return res;
+      });
   },
 
   deleteDate(index, selectedDate, storage, storages) {

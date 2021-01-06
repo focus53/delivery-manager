@@ -8,6 +8,9 @@ module.exports = (sequelize, dataTypes) => {
       id: { type: Sequelize.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       address: { type: Sequelize.STRING, allowNull: false },
       date: { type: Sequelize.STRING },
+      load: { type: Sequelize.STRING, allowNull: true },
+      timeDelivery: { type: Sequelize.STRING, allowNull: true },
+      description: { type: Sequelize.STRING, allowNull: true },
       storageId: { type: Sequelize.INTEGER, references: { model: { tableName: 'storages' }, key: 'id' } },
     },
     {
