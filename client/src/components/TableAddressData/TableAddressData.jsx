@@ -13,27 +13,6 @@ const tabList = [
   },
 ];
 
-/*const data = [
-  {
-    key: '1',
-    number: 1,
-    name: 'John Brown',
-    load: 10,
-    address: 'New York No. 1 Lake Park',
-    time: '11-00',
-    descriptions: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.`,
-  },
-  {
-    key: '2',
-    number: 2,
-    name: 'John Brown',
-    load: 40,
-    address: 'New York No. 1 Lake Park',
-    time: '15-00',
-    descriptions: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.`,
-  },
-];*/
-
 const columns = [
   {
     title: '№',
@@ -82,6 +61,7 @@ const columns = [
 const TableAddressData = (props) => {
   const [tab, setTab] = useState('table');
 
+  // This find mutates state !!!
   const data =
     props.routing.some((el) => el.date === props.selectedDate) &&
     props.routing.find((el) => el.date === props.selectedDate)[props.selectedStorage] &&
@@ -90,7 +70,6 @@ const TableAddressData = (props) => {
       [props.selectedStorage].sort((a, b) => {
         return parseInt(a.timeDelivery) - parseInt(b.timeDelivery);
       });
-
   return (
     <>
       <Card
@@ -101,12 +80,10 @@ const TableAddressData = (props) => {
           setTab(key);
         }}
       >
-        {tab === 'table' && <Table columns={columns} dataSource={data} pagination={false} />}
+        {tab === 'table' && (data ? <Table columns={columns} dataSource={data} pagination={false} /> : <Table />)}
         {tab === 'timeline' && (
           <Timeline mode="left">
-            {data.map((el) => {
-              return <Timeline.Item label={el.timeDelivery}>{el.address}</Timeline.Item>;
-            })}
+            {data ? data.map((el) => <Timeline.Item label={el.timeDelivery}>{el.address}</Timeline.Item>) : <Table />}
           </Timeline>
         )}
       </Card>
