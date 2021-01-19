@@ -39,17 +39,23 @@ router.post('/login', async (req, res) => {
 });
 
 // api/auth/register
+
+// @TODO router.post('url', controler.method)
 router.post('/register', async (req, res) => {
   try {
     const { userEmail, password } = req.body;
+
+    // @TODO move to service
     const isExistUser = await models.User.findOne({ where: { email: userEmail } });
 
     if (isExistUser) {
       return res.status(400).json({ message: 'User is already exist' });
     }
 
+    // @TODO move to service
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // @TODO move to service
     await models.User.create({ email: userEmail, password: hashedPassword });
 
     res.status(201).json({ message: 'User is created' });

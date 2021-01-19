@@ -1,9 +1,9 @@
-import 'antd/dist/antd.css';
 import React, { useEffect } from 'react';
+import 'antd/dist/antd.css';
 import { connect } from 'react-redux';
 
 import AuthPage from './pages/AuthPage';
-import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from './components/Redux/user-reducer';
+import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from './Redux/user/userThunkCreators';
 import ContentPage from './pages/ContentPage';
 
 const Routes = (props) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 
 const layout = {
   labelCol: {
@@ -18,21 +18,11 @@ const tailLayout = {
 
 const AuthForm = (props) => {
   const onFinish = (values) => {
-    props.loginTC(values.username, values.password, warning);
+    props.loginTC(values.username, values.password);
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  const warning = (errorText) => {
-    message.warning({
-      content: errorText,
-      className: 'custom-class',
-      style: {
-        marginTop: '10vh',
-      },
-    });
+    console.error('Failed:', errorInfo);
   };
 
   return (

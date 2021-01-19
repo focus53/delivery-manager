@@ -36,17 +36,7 @@ const RegistrationForm = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    props.registerTC(values.email, values.password, warning);
-  };
-
-  const warning = (errorText) => {
-    message.warning({
-      content: errorText,
-      className: 'custom-class',
-      style: {
-        marginTop: '10vh',
-      },
-    });
+    props.registerTC(values.email, values.password);
   };
 
   return (

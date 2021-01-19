@@ -3,25 +3,21 @@ import { MinusOutlined } from '@ant-design/icons';
 import React from 'react';
 
 export const Addresses = (props) => {
+  const date = props.routing.find((el) => el.date === props.selectedDate);
+  const deliveries = date ? date[props.storageArea] : [];
+
   return (
-    <>
-      {props.routing.some((el) => el.date === props.selectedDate) && (
-        <p>
-          {props.routing.find((el) => el.date === props.selectedDate)[`${props.storageArea}`] &&
-            props.routing
-              .find((el) => el.date === props.selectedDate)
-              [`${props.storageArea}`].map((el, index) => {
-                return (
-                  <div key={index}>
-                    {`${index + 1}: ${el.address}`}{' '}
-                    <Button onClick={() => props.deleteAddress(index, `${props.storageArea}`, el.id)} size="small">
-                      <MinusOutlined />
-                    </Button>
-                  </div>
-                );
-              })}
-        </p>
-      )}
-    </>
+    <p>
+      {deliveries.map((el, index) => {
+        return (
+          <div key={index}>
+            {`${index + 1}: ${el.address}`}{' '}
+            <Button onClick={() => props.deleteAddress(index, `${props.storageArea}`, el.id)} size="small">
+              <MinusOutlined />
+            </Button>
+          </div>
+        );
+      })}
+    </p>
   );
 };

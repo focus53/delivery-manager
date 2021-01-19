@@ -4,20 +4,18 @@ import { connect } from 'react-redux';
 
 import 'react-calendar/dist/Calendar.css';
 import './OwnCalendar.css';
-import { selectDateTC, setDateTC } from '../Redux/address-reducer';
+import { selectDateTC, setDateTC } from '../../Redux/delivery/deliveryThunkCreators';
 
 const Calendar = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     props.setDateTC(selectedDate.toDateString(), props.token);
-  }, []);
-  useEffect(() => {
-    props.selectDateTC(selectedDate.toDateString());
   }, [selectedDate]);
 
   const handleChange = (val) => {
     setSelectedDate(val);
+    props.selectDateTC(val.toDateString());
   };
 
   return (
@@ -40,8 +38,8 @@ const Calendar = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    selectedDate: state.addressReducer.selectedDate,
-    haveAddress: state.addressReducer.routing.map((e) => e.date),
+    selectedDate: state.deliveryReducer.selectedDate,
+    haveAddress: state.deliveryReducer.routing.map((e) => e.date),
     token: state.userReducer.token,
   };
 };

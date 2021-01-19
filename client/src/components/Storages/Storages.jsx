@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { StorageForm } from '../AddressData/StorageForm/StorageForm';
-import { addStorageTC, deleteStorageTC } from '../Redux/user-reducer';
+import { addStorageTC, deleteStorageTC } from '../../Redux/user/userThunkCreators';
 
 const Storages = (props) => {
   const [addModeStorage, setAddModeStorage] = useState(false);
@@ -49,14 +49,15 @@ const Storages = (props) => {
         <Table columns={columns} dataSource={tableData} pagination={false} bordered />
       </div>
       <Row gutter={[5, 5]}>
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => (addModeStorage ? setAddModeStorage(false) : setAddModeStorage(true))}
-        >
+        <Button icon={<PlusOutlined />} onClick={() => setAddModeStorage(!addModeStorage)}>
           Add new storage
         </Button>
       </Row>
-      <Row>{addModeStorage && <StorageForm handleSubmitNewStorage={handleSubmitNewStorage} />}</Row>
+      {addModeStorage && (
+        <Row>
+          <StorageForm handleSubmitNewStorage={handleSubmitNewStorage} />
+        </Row>
+      )}
     </div>
   );
 };

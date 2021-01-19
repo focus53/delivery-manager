@@ -8,6 +8,7 @@ export const StorageForm = (props) => {
   const [streetNumber, setStreetNumber] = useState('');
   const [postCode, setPostCode] = useState('');
   const [storageName, setStorageName] = useState('');
+
   return (
     <form onSubmit={(e) => props.handleSubmitNewStorage(e, street, streetNumber, postCode, storageName)}>
       <Input.Group size="small">

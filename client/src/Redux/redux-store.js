@@ -3,14 +3,14 @@ import thunkMiddleware from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { reducer as formReducer } from 'redux-form';
 
-import addressReducer from './address-reducer';
-import userReducer from './user-reducer';
-import sagaWatcher from './sagas';
+import deliveryReducer from './delivery/deliveryReducer';
+import userReducer from './user/userReducer';
+import sagaWatcher from './user/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
 let reducers = combineReducers({
-  addressReducer,
+  deliveryReducer,
   userReducer,
   form: formReducer,
 });

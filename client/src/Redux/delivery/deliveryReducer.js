@@ -1,15 +1,15 @@
-import { dateAPI } from '../../api/api';
-
-const SELECTED_DATE = 'SELECTED_DATE';
-const ADD_NEW_ADDRESS = 'ADD_NEW_ADDRESS';
-const HAVE_ADDRESS = 'HAVE_ADDRESS';
-const DELETE_ADDRESS = 'DELETE_ADDRESS';
-const UPDATE_LINK_TO_MAPS = 'UPDATE_LINK_TO_MAPS';
-const SET_LINKS_TO_MAPS = 'SET_LINKS_TO_MAPS';
-const SET_START_POINT = 'SET_START_POINT';
-const SET_ADDRESSES = 'SET_ADDRESSES';
-const ADD_NEW_ADDRESS_STORAGE = 'ADD_NEW_ADDRESS_STORAGE';
-const SELECTED_STORAGE = 'SELECTED_STORAGE';
+import {
+  SELECTED_DATE,
+  ADD_NEW_ADDRESS,
+  HAVE_ADDRESS,
+  DELETE_ADDRESS,
+  UPDATE_LINK_TO_MAPS,
+  SET_LINKS_TO_MAPS,
+  SET_START_POINT,
+  SET_ADDRESSES,
+  ADD_NEW_ADDRESS_STORAGE,
+  SELECTED_STORAGE,
+} from './constants';
 
 const initialState = {
   baseURL: 'https://www.google.com/maps/dir/',
@@ -20,34 +20,8 @@ const initialState = {
   selectedStorage: null,
 };
 
-// Action creators
-const selectedDateAC = (payload) => {
-  return { type: SELECTED_DATE, payload };
-};
-const addNewAddressAC = (payload) => {
-  return { type: ADD_NEW_ADDRESS, payload };
-};
-const haveAddressAC = (payload) => {
-  return { type: HAVE_ADDRESS, payload };
-};
-const deleteAddressAC = (payload) => {
-  return { type: DELETE_ADDRESS, payload };
-};
-const updateLinkToMapsAC = (payload) => {
-  return { type: UPDATE_LINK_TO_MAPS, payload };
-};
-const setLinksToMapsAC = (payload) => {
-  return { type: SET_LINKS_TO_MAPS, payload };
-};
-const setAddressesAC = (payload) => {
-  return { type: SET_ADDRESSES, payload };
-};
-const selectedStorageAC = (payload) => {
-  return { type: SELECTED_STORAGE, payload };
-};
-
 // Reducer
-const addressReducer = (state = initialState, action) => {
+const deliveryReducer = (state = initialState, action) => {
   switch (action.type) {
     case SELECTED_DATE:
       return { ...state, selectedDate: action.payload };
@@ -173,55 +147,4 @@ const addressReducer = (state = initialState, action) => {
   }
 };
 
-// Thunk creators
-export const setDateTC = (selectedDate, token) => async (dispatch, getState) => {
-  const getDates = await dateAPI.getDate(token);
-  const storages = getState().userReducer.userStorages;
-  const userAddressesStorages = getState().userReducer.userAddressesStorages;
-  dispatch(setAddressesAC(getDates));
-  dispatch(setLinksToMapsAC({ selectedDate, storages, userAddressesStorages }));
-};
-
-export const selectDateTC = (date) => (dispatch) => {
-  dispatch(selectedDateAC(date));
-};
-
-export const addNewAddressTC = (address, selectedDate, storage, userId, timeDelivery, load, description) => async (
-  dispatch
-) => {
-  const response = await dateAPI.newDate(selectedDate, address, storage, userId, timeDelivery, load, description);
-  if (response) {
-    dispatch(
-      addNewAddressAC({ selectedDate: response.data.newDelivery.date, delivery: response.data.newDelivery, storage })
-    );
-    dispatch(updateLinkToMapsTC(selectedDate, storage, address));
-  }
-};
-
-export const haveAddressTC = (date) => (dispatch) => {
-  dispatch(haveAddressAC(date));
-};
-
-export const deleteAddressTC = (index, selectedDate, storage, storages, deliveryId) => async (dispatch) => {
-  const response = await dateAPI.deleteDate(deliveryId);
-  if (response) {
-    dispatch(deleteAddressAC({ index, selectedDate, storage, storages }));
-    dispatch(updateLinkToMapsTC(selectedDate, storage));
-  }
-};
-
-export const updateLinkToMapsTC = (selectedDate, storage, newAddress) => (dispatch, getState) => {
-  const userAddressesStorages = getState().userReducer.userAddressesStorages;
-  const storages = getState().userReducer.userStorages;
-  dispatch(updateLinkToMapsAC({ selectedDate, storage, newAddress, userAddressesStorages, storages }));
-};
-
-export const setLinksToMapsTC = (selectedDate) => (dispatch) => {
-  dispatch(setLinksToMapsAC({ selectedDate }));
-};
-
-export const selectedStorageTC = (key) => (dispatch) => {
-  dispatch(selectedStorageAC({ key }));
-};
-
-export default addressReducer;
+export default deliveryReducer;

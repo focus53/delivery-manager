@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+require('dotenv').config();
 const db = require('./models');
 
-require('dotenv').config();
 app.use(express.json({ extended: true }));
 
 app.use('/api/date', require('./routes/date.router'));

@@ -1,7 +1,8 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { userAPI } from '../../api/api';
-import { IS_AUTHENTICATED, LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from './user-reducer';
+import { IS_AUTHENTICATED, LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from './constants';
+import { warning } from '../../utils/warning';
 
 function* sagaWorker(action) {
   try {
@@ -31,7 +32,7 @@ function* sagaWorker(action) {
     yield put({ type: IS_AUTHENTICATED, payload: { isAuth: true } });
   } catch (e) {
     yield put({ type: LOGIN_ERROR, payload: { errorMassage: e.response.data.message } });
-    action.payload.warning(e.response.data.message);
+    warning(e.response.data.message);
   }
 }
 

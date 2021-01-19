@@ -84,12 +84,12 @@ router.post('/delete_address', async (req, res) => {
 // /api/date/asd
 router.get('/asd', async (req, res) => {
   try {
-    const response = await models.Storage.findAll({
+    /* const response = await models.Storage.findAll({
       where: { id: 1 },
       include: { model: models.User, as: 'ownUser' },
-    });
+    });*/
 
-    res.status(200).json({ response });
+    res.status(200).json({ env: process });
   } catch (e) {
     res.status(500).json(e.message);
   }
