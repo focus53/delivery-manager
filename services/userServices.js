@@ -51,7 +51,7 @@ module.exports = {
   },
 
   matchPassword(password, existPassword) {
-    bcrypt.compare(password, existPassword);
+    return bcrypt.compare(password, existPassword);
   },
 
   getToken(userId) {

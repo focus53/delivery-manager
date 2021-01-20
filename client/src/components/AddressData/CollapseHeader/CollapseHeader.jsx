@@ -3,7 +3,7 @@ import { Row, Col } from 'antd';
 
 export const CollapseHeader = (props) => {
   const date = props.routing.find((el) => el.date === props.selectedDate);
-  const deliveries = date ? date[props.storageArea] : [];
+  const deliveries = date?.[props.storageArea] || [];
 
   return (
     <Row gutter={10}>

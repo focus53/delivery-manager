@@ -57,11 +57,6 @@ module.exports = {
     try {
       const { userEmail, password } = req.body;
 
-      /*const existUser = await models.User.findOne({
-        where: { email: userEmail },
-        include: [{ model: models.Storage, as: 'ownStorages' }],
-      });*/
-
       const existUser = await userServices.getUser({ email: userEmail }, [
         { model: models.Storage, as: 'ownStorages' },
       ]);
@@ -70,18 +65,17 @@ module.exports = {
         return res.status(400).json({ message: 'Incorrect email or password!' });
       }
 
-      const matchPassword = await userServices.matchPassword(password, existUser.password);
+      const matchPassword = await userServices.matchPassword(password, existUser.dataValues.password);
 
       if (!matchPassword) {
         return res.status(400).json({ message: 'Incorrect email or password!' });
       }
 
-      const token = userServices.getToken(existUser.id);
+      const token = userServices.getToken(existUser.dataValues.id);
 
-      const { userStorages, userAddressesStorages } = userServices.getStoragesData({ userId: existUser.id });
-
-      /*const userStorages = existUser.ownStorages.map((stor) => stor.name);
-      const userAddressesStorages = existUser.ownStorages.map((stor) => stor.address);*/
+      const { userStorages, userAddressesStorages } = await userServices.getStoragesData({
+        userId: existUser.dataValues.id,
+      });
 
       res.status(200).json({ userId: existUser.id, token, userStorages, userAddressesStorages, userEmail });
     } catch (e) {

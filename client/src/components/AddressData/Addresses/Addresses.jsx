@@ -4,7 +4,7 @@ import React from 'react';
 
 export const Addresses = (props) => {
   const date = props.routing.find((el) => el.date === props.selectedDate);
-  const deliveries = date ? date[props.storageArea] : [];
+  const deliveries = date?.[props.storageArea] || [];
 
   return (
     <p>
