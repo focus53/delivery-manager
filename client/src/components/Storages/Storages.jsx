@@ -22,7 +22,7 @@ const columns = [
   },
 ];
 
-const Storages = (props) => {
+const Storages = () => {
   const dispatch = useDispatch();
   const [addModeStorage, setAddModeStorage] = useState(false);
 
@@ -30,8 +30,8 @@ const Storages = (props) => {
   const userStorages = useSelector(userStoragesSelector);
   const userAddressesStorages = useSelector(userAddressesStoragesSelector);
 
-  const handleDeleteStorage = (el) => {
-    dispatch(deleteStorageTC(el));
+  const handleDeleteStorage = (storageName) => {
+    dispatch(deleteStorageTC(storageName, userId));
   };
 
   const tableData = userStorages.map((el, index) => {

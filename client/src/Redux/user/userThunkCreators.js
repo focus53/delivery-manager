@@ -64,7 +64,7 @@ export const addStorageTC = (newStorage, newAddressStorage, userId) => async (di
   }
 };
 
-export const deleteStorageTC = (storageName) => async (dispatch) => {
-  const response = await userAPI.deleteStorage(storageName);
+export const deleteStorageTC = (storageName, userId) => async (dispatch) => {
+  const response = await userAPI.deleteStorage(storageName, userId);
   dispatch(deleteStorageAC({ storageToDelete: response.data.storageToDelete }));
 };

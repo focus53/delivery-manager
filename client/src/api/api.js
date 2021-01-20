@@ -33,22 +33,22 @@ export const dateAPI = {
 
 export const userAPI = {
   getUser(userEmail, password) {
-    return axios.post('/api/auth/login', { userEmail, password });
+    return axios.post('/api/user/login', { userEmail, password });
   },
 
   registerUser(userEmail, password) {
-    return axios.post('api/auth/register', { userEmail, password });
+    return axios.post('api/user/register', { userEmail, password });
   },
 
   addStorage(newStorage, newAddressStorage, userId) {
-    return axios.post('api/auth/storage', { newStorage, newAddressStorage, userId });
+    return axios.post('api/user/storage', { newStorage, newAddressStorage, userId });
   },
 
   getStorages(token) {
-    return axiosInstance.get('api/auth/storage');
+    return axiosInstance.get('api/user/storage');
   },
 
-  deleteStorage(storageName) {
-    return axios.post('api/auth/delete_storage', { storageName });
+  deleteStorage(storageName, userId) {
+    return axios.post('api/user/delete_storage', { storageName, userId });
   },
 };

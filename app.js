@@ -6,8 +6,8 @@ const db = require('./models');
 
 app.use(express.json({ extended: true }));
 
-app.use('/api/date', require('./routes/date.router'));
-app.use('/api/auth', require('./routes/auth.router'));
+app.use('/api/date', require('./routes/delivery.router'));
+app.use('/api/user', require('./routes/user.router'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
