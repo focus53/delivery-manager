@@ -1,47 +1,53 @@
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Row, Table } from 'antd';
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { StorageForm } from '../AddressData/StorageForm/StorageForm';
 import { addStorageTC, deleteStorageTC } from '../../Redux/user/userThunkCreators';
+import { userAddressesStoragesSelector, userIdSelector, userStoragesSelector } from '../../Redux/user/userSelectors';
+
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+  },
+  {
+    title: '',
+    dataIndex: 'deleteField',
+  },
+];
 
 const Storages = (props) => {
+  const dispatch = useDispatch();
   const [addModeStorage, setAddModeStorage] = useState(false);
 
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: '',
-      dataIndex: 'deleteField',
-    },
-  ];
+  const userId = useSelector(userIdSelector);
+  const userStorages = useSelector(userStoragesSelector);
+  const userAddressesStorages = useSelector(userAddressesStoragesSelector);
 
-  const tableData = props.userStorages.map((el, index) => {
+  const handleDeleteStorage = (el) => {
+    dispatch(deleteStorageTC(el));
+  };
+
+  const tableData = userStorages.map((el, index) => {
     return {
       key: index,
       name: el,
-      address: props.userAddressesStorages[index],
+      address: userAddressesStorages[index],
       deleteField: <Button onClick={() => handleDeleteStorage(el)} icon={<DeleteOutlined />} />,
     };
   });
-
-  const handleDeleteStorage = (el) => {
-    props.deleteStorageTC(el);
-  };
 
   const handleSubmitNewStorage = (e, street, streetNumber, postCode, storageName) => {
     e.preventDefault();
     setAddModeStorage(false);
     let newAddressStorageToString = `${street} ${streetNumber}, ${postCode}`;
-    props.addStorageTC(storageName, newAddressStorageToString, props.userId);
+    dispatch(addStorageTC(storageName, newAddressStorageToString, userId));
   };
   return (
     <div>
@@ -62,12 +68,4 @@ const Storages = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userId: state.userReducer.userId,
-    userStorages: state.userReducer.userStorages,
-    userAddressesStorages: state.userReducer.userAddressesStorages,
-  };
-};
-
-export default connect(mapStateToProps, { addStorageTC, deleteStorageTC })(Storages);
+export default Storages;

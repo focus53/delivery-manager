@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { useDispatch } from 'react-redux';
+import { loginTC } from '../../Redux/user/userThunkCreators';
 
 const layout = {
   labelCol: {
@@ -17,8 +19,10 @@ const tailLayout = {
 };
 
 const AuthForm = (props) => {
+  const dispatch = useDispatch();
+
   const onFinish = (values) => {
-    props.loginTC(values.username, values.password);
+    dispatch(loginTC(values.username, values.password));
   };
 
   const onFinishFailed = (errorInfo) => {

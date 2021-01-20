@@ -9,7 +9,7 @@ import { Layout } from 'antd';
 
 const { Content } = Layout;
 
-const AuthPage = (props) => {
+const AuthPage = () => {
   const [register, setRegister] = useState(false);
 
   return (
@@ -19,16 +19,7 @@ const AuthPage = (props) => {
           <Layout style={{ minHeight: '100%' }}>
             <Content style={{ margin: '0 16px' }}>
               <div style={{ padding: 24, minHeight: 360 }}>
-                {register ? (
-                  <RegistrationForm isRegister={setRegister} registerTC={props.registerTC} />
-                ) : (
-                  <AuthForm
-                    isRegister={setRegister}
-                    setAuthenticatedTC={props.setAuthenticatedTC}
-                    loginTC={props.loginTC}
-                    loginError={props.loginError}
-                  />
-                )}
+                {register ? <RegistrationForm isRegister={setRegister} /> : <AuthForm isRegister={setRegister} />}
               </div>
             </Content>
           </Layout>

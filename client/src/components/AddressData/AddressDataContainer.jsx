@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Divider, Collapse, Button } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -9,27 +9,42 @@ import { CollapseHeader } from './CollapseHeader/CollapseHeader';
 import { Addresses } from './Addresses/Addresses';
 import { AddressForm } from './AddressForm/AddressForm';
 import { addNewAddressTC, deleteAddressTC, selectedStorageTC } from '../../Redux/delivery/deliveryThunkCreators';
-import deliveryReducer from '../../Redux/delivery/deliveryReducer';
+import {
+  defaultLinksSelector,
+  mapsLinkSelector,
+  routingSelector,
+  selectedDateSelector,
+} from '../../Redux/delivery/deliverySelectors';
+import { userIdSelector, userStoragesSelector } from '../../Redux/user/userSelectors';
 
 const { Panel } = Collapse;
 
-const AddressDataContainer = (props) => {
+const AddressDataContainer = () => {
+  const dispatch = useDispatch();
+
   const [addMode, setAddMode] = useState(false);
   const [start, setStart] = useState('');
 
+  const selectedDate = useSelector(selectedDateSelector);
+  const routing = useSelector(routingSelector);
+  const mapsLink = useSelector(mapsLinkSelector);
+  const storages = useSelector(userStoragesSelector);
+  // const defaultLinks = useSelector(defaultLinksSelector);
+  const userId = useSelector(userIdSelector);
+
   const callback = (key) => {
-    props.selectedStorageTC(key);
+    dispatch(selectedStorageTC(key));
   };
 
   const handleSubmit = (e, street, streetNumber, postCode, timeDelivery, load, description) => {
     e.preventDefault();
     setAddMode(false);
     let newAddressToString = `${street} ${streetNumber}, ${postCode}`;
-    props.addNewAddressTC(newAddressToString, props.selectedDate, start, props.userId, timeDelivery, load, description);
+    dispatch(addNewAddressTC(newAddressToString, selectedDate, start, userId, timeDelivery, load, description));
   };
 
   const deleteAddress = (index, storage, deliveryId) => {
-    props.deleteAddressTC(index, props.selectedDate, storage, props.storages, deliveryId);
+    dispatch(deleteAddressTC(index, selectedDate, storage, storages, deliveryId));
   };
 
   const changeHandler = (e) => {
@@ -40,27 +55,27 @@ const AddressDataContainer = (props) => {
     <Row gutter={[10, 10]} style={{ minHeight: '10rem' }}>
       <Col span={24}>
         <Divider style={{ border: '#1890ff' }} orientation="left">
-          {props.selectedDate}
+          {selectedDate}
         </Divider>
         <Row gutter={[10, 10]}>
           <Col span={24}>
             <Collapse onChange={callback} accordion>
-              {props.storages.map((el, index) => (
+              {storages.map((el, index) => (
                 <Panel
-                  header={<CollapseHeader routing={props.routing} selectedDate={props.selectedDate} storageArea={el} />}
+                  header={<CollapseHeader routing={routing} selectedDate={selectedDate} storageArea={el} />}
                   key={el}
                 >
                   <Addresses
-                    routing={props.routing}
-                    selectedDate={props.selectedDate}
+                    routing={routing}
+                    selectedDate={selectedDate}
                     deleteAddress={deleteAddress}
                     storageArea={el}
                   />
                   <MapsLink
-                    selectedDate={props.selectedDate}
-                    routing={props.routing}
+                    selectedDate={selectedDate}
+                    routing={routing}
                     storageLinkMethod={`${el}`}
-                    defaultLink={props.mapsLink[el]}
+                    defaultLink={mapsLink[el]}
                   />
                 </Panel>
               ))}
@@ -78,7 +93,7 @@ const AddressDataContainer = (props) => {
         <Row gutter={[5, 5]}>
           {addMode && (
             <div>
-              <Start onChange={changeHandler} start={start} storages={props.storages} />
+              <Start onChange={changeHandler} start={start} storages={storages} />
               <AddressForm handleSubmit={handleSubmit} start={start} />
             </div>
           )}
@@ -88,21 +103,4 @@ const AddressDataContainer = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selectedDate: state.deliveryReducer.selectedDate,
-    routing: state.deliveryReducer.routing,
-    mapsLink: state.deliveryReducer.mapsLink,
-    storages: state.userReducer.userStorages,
-    defaultLinks: state.mapsLink,
-    userId: state.userReducer.userId,
-  };
-};
-
-// @TODO use useDispatch redux hook
-
-export default connect(mapStateToProps, {
-  addNewAddressTC,
-  deleteAddressTC,
-  selectedStorageTC,
-})(AddressDataContainer);
+export default AddressDataContainer;

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Input, Row, Col, Button, message } from 'antd';
+import { Form, Input, Row, Col, Button } from 'antd';
+import { useDispatch } from 'react-redux';
+import { registerTC } from '../../Redux/user/userThunkCreators';
 
 const formItemLayout = {
   labelCol: {
@@ -33,10 +35,11 @@ const tailFormItemLayout = {
 };
 
 const RegistrationForm = (props) => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    props.registerTC(values.email, values.password);
+    dispatch(registerTC(values.email, values.password));
   };
 
   return (

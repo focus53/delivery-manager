@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import ReactCalendar from 'react-calendar';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import 'react-calendar/dist/Calendar.css';
 import './OwnCalendar.css';
 import { selectDateTC, setDateTC } from '../../Redux/delivery/deliveryThunkCreators';
+import { haveAddressSelector } from '../../Redux/delivery/deliverySelectors';
+import { tokenSelector } from '../../Redux/user/userSelectors';
 
-const Calendar = (props) => {
+const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const token = useSelector(tokenSelector);
+  const haveAddress = useSelector(haveAddressSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    props.setDateTC(selectedDate.toDateString(), props.token);
-  }, [selectedDate]);
+    dispatch(setDateTC(selectedDate.toDateString(), token));
+  }, [dispatch, token, selectedDate]);
 
   const handleChange = (val) => {
     setSelectedDate(val);
-    props.selectDateTC(val.toDateString());
+    dispatch(selectDateTC(val.toDateString()));
   };
 
   return (
@@ -28,7 +33,7 @@ const Calendar = (props) => {
           value={selectedDate}
           className="card blue-grey darken-1 ownStyleCalendar"
           tileClassName={(obj) => {
-            return props.haveAddress.includes(obj.date.toDateString()) && 'haveAddress';
+            return haveAddress.includes(obj.date.toDateString()) && 'haveAddress';
           }}
         />
       </div>
@@ -36,12 +41,4 @@ const Calendar = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selectedDate: state.deliveryReducer.selectedDate,
-    haveAddress: state.deliveryReducer.routing.map((e) => e.date),
-    token: state.userReducer.token,
-  };
-};
-
-export default connect(mapStateToProps, { selectDateTC, setDateTC })(Calendar);
+export default Calendar;

@@ -2,14 +2,19 @@ import React from 'react';
 import { CalendarOutlined, ExportOutlined, HomeOutlined, SettingOutlined, TeamOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutTC } from '../../Redux/user/userThunkCreators';
+import { userEmailSelector } from '../../Redux/user/userSelectors';
 
 const { SubMenu } = Menu;
 
-const MenuComponent = (props) => {
+const MenuComponent = () => {
+  const dispatch = useDispatch();
+  const userEmail = useSelector(userEmailSelector);
   return (
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
       <Menu.Item key="0" disabled={true}>
-        {props.userEmail}
+        {userEmail}
       </Menu.Item>
 
       <Menu.Divider />
@@ -31,7 +36,7 @@ const MenuComponent = (props) => {
         <Menu.Item key="5">Team 2</Menu.Item>
       </SubMenu>
 
-      <Menu.Item key="6" icon={<ExportOutlined />} onClick={() => props.logoutTC()}>
+      <Menu.Item key="6" icon={<ExportOutlined />} onClick={() => dispatch(logoutTC())}>
         Log out
       </Menu.Item>
     </Menu>

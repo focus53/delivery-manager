@@ -7,7 +7,7 @@ export const MapsLink = (props) => {
         target="_blank"
         rel="noreferrer"
         href={
-          props.routing.find((el) => el.date === props.selectedDate)?.mapsLinks[props.storageLinkMethod] ||
+          props.routing.find((el) => el.date === props.selectedDate)?.mapsLinks?.[props.storageLinkMethod] ||
           props.defaultLink
         }
       >

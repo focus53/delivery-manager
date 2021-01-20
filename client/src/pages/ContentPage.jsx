@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { Row, Col, Layout } from 'antd';
 import 'antd/dist/antd.css';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 import './styles.css';
 
 import Calendar from './../components/Calendar/Calendar';
 import AddressDataContainer from './../components/AddressData/AddressDataContainer';
-import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from '../Redux/user/userThunkCreators';
 import Storages from '../components/Storages/Storages';
 import TableAddressData from '../components/TableAddressData/TableAddressData';
 import MenuComponent from '../components/MenuComponent/MenuComponent';
 
 const { Content, Sider } = Layout;
 
-const ContentPage = (props) => {
+const ContentPage = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = (collapsed) => {
@@ -25,7 +23,7 @@ const ContentPage = (props) => {
     <Layout className="main-content">
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <MenuComponent logoutTC={props.logoutTC} userEmail={props.userEmail} />
+        <MenuComponent />
       </Sider>
       <Layout>
         <Content>
@@ -55,14 +53,4 @@ const ContentPage = (props) => {
   );
 };
 
-// @TODO use selectors
-
-const mapStateToProps = (store) => {
-  return {
-    isAuthenticated: store.userReducer.isAuthenticated,
-    userId: store.userReducer.userId,
-    userEmail: store.userReducer.userEmail,
-  };
-};
-
-export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC })(ContentPage);
+export default ContentPage;

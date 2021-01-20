@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Table, Tag, Card, Timeline } from 'antd';
-import { connect } from 'react-redux';
-import deliveryReducer from '../../Redux/delivery/deliveryReducer';
+import { useSelector } from 'react-redux';
+import { routingSelector, selectedDateSelector, selectedStorageSelector } from '../../Redux/delivery/deliverySelectors';
 
 const tabList = [
   {
@@ -59,26 +59,30 @@ const columns = [
   },
 ];
 
-const TableAddressData = (props) => {
+const TableAddressData = () => {
   const [tab, setTab] = useState('table');
+
+  const selectedStorage = useSelector(selectedStorageSelector);
+  const routing = useSelector(routingSelector);
+  const selectedDate = useSelector(selectedDateSelector);
 
   const data = useMemo(() => {
     let data = [];
-    const date = props.routing.find((el) => el.date === props.selectedDate);
+    const date = routing.find((el) => el.date === selectedDate);
 
-    if (date !== undefined && date[props.selectedStorage]) {
-      data = [...date[props.selectedStorage]];
+    if (date !== undefined && date[selectedStorage]) {
+      data = [...date[selectedStorage]];
       data.sort((a, b) => {
         return parseInt(a.timeDelivery) - parseInt(b.timeDelivery);
       });
     }
     return data;
-  }, [props.routing, props.selectedStorage, props.selectedDate]);
+  }, [routing, selectedStorage, selectedDate]);
 
   return (
     <Card
       style={{ width: '100%' }}
-      title={props.selectedStorage}
+      title={selectedStorage}
       tabList={tabList}
       onTabChange={(key) => {
         setTab(key);
@@ -94,12 +98,4 @@ const TableAddressData = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selectedStorage: state.deliveryReducer.selectedStorage,
-    routing: state.deliveryReducer.routing,
-    selectedDate: state.deliveryReducer.selectedDate,
-  };
-};
-
-export default connect(mapStateToProps)(TableAddressData);
+export default TableAddressData;

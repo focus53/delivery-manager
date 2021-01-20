@@ -1,35 +1,25 @@
 import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
-import { connect } from 'react-redux';
 
 import AuthPage from './pages/AuthPage';
-import { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC } from './Redux/user/userThunkCreators';
+import { isLoginTC } from './Redux/user/userThunkCreators';
 import ContentPage from './pages/ContentPage';
+import { isAuthenticatedSelector } from './Redux/user/userSelectors';
 
-const Routes = (props) => {
+const Routes = () => {
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
+
   useEffect(() => {
-    props.isLoginTC();
-  }, []);
+    dispatch(isLoginTC());
+  }, [dispatch]);
 
-  if (props.isAuthenticated) {
+  if (isAuthenticated) {
     return <ContentPage />;
   }
-
-  return (
-    <AuthPage
-      setAuthenticatedTC={props.setAuthenticatedTC}
-      loginTC={props.loginTC}
-      registerTC={props.registerTC}
-      loginError={props.loginError}
-    />
-  );
+  return <AuthPage />;
 };
 
-const mapStateToProps = (store) => {
-  return {
-    isAuthenticated: store.userReducer.isAuthenticated,
-    loginError: store.userReducer.loginError,
-  };
-};
-
-export default connect(mapStateToProps, { setAuthenticatedTC, isLoginTC, loginTC, registerTC, logoutTC })(Routes);
+export default Routes;
