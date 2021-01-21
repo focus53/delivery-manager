@@ -16,6 +16,7 @@ const Calendar = () => {
 
   useEffect(() => {
     dispatch(setDateTC(selectedDate.toDateString(), token));
+    dispatch(selectDateTC(selectedDate.toDateString()));
   }, [dispatch, token, selectedDate]);
 
   const handleChange = (val) => {
