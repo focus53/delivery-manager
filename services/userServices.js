@@ -24,8 +24,12 @@ module.exports = {
     return models.Storage.create({ name: newStorage, address: newAddressStorage, userId });
   },
 
-  getStorages(where) {
-    return models.Storage.findAll({ where });
+  getStorages(where, include) {
+    const query = { where };
+    if (include) {
+      query.include = include;
+    }
+    return models.Storage.findAll(query);
   },
 
   async getStoragesData(where) {
@@ -56,5 +60,22 @@ module.exports = {
 
   getToken(userId) {
     return jwt.sign({ userId }, config.get('jwtSecret'), { expiresIn: '1h' });
+  },
+
+  getDeliveries(storageId) {
+    return models.Delivery.findAll({
+      where: { storageId },
+    }).then((dates) => dates.map((dateEl) => dateEl.date));
+  },
+
+  createDelivery(address, date, timeDelivery, load, description, existStorages) {
+    return models.Delivery.create({
+      address,
+      date,
+      timeDelivery,
+      load,
+      description,
+      storageId: existStorages[0].id,
+    });
   },
 };

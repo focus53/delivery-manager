@@ -1,9 +1,6 @@
 const { Router } = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const config = require('config');
+
 const authMiddleware = require('../middleware/authMiddleware');
-const models = require('../models');
 const { userLogin } = require('../controllers/userControllers');
 const { getStoragesData, deleteStorage, registerUser, addStorage } = require('../controllers/userControllers');
 
