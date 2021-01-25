@@ -11,8 +11,12 @@ type Props = {
 const Start: React.FC<Props> = (props) => {
   return (
     <Radio.Group onChange={props.onChange} value={props.start}>
-      {props.storages.map((el) => {
-        return <Radio value={el}>{el}</Radio>;
+      {props.storages.map((el, index) => {
+        return (
+          <Radio key={index} value={el}>
+            {el}
+          </Radio>
+        );
       })}
     </Radio.Group>
   );

@@ -7,7 +7,7 @@ import { warning } from '../../utils/warning';
 function* sagaWorker(action: { type: string; payload: any }) {
   try {
     const response = yield call(async () => {
-      return await userAPI.getUser(action.payload.userEmail, action.payload.password);
+      return await userAPI.getUser(action.payload.email, action.payload.password);
     });
     localStorage.setItem(
       'userData',

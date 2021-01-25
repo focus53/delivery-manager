@@ -79,7 +79,9 @@ const TableAddressData: React.FC = () => {
         return parseInt(a.timeDelivery) - parseInt(b.timeDelivery);
       });
     }
-    return data;
+    return data.map((dataEl, index) => {
+      return { ...dataEl, key: index };
+    });
   }, [routing, selectedStorage, selectedDate]);
 
   return (
@@ -94,7 +96,15 @@ const TableAddressData: React.FC = () => {
       {tab === 'table' && (data ? <Table columns={columns} dataSource={data} pagination={false} /> : <Table />)}
       {tab === 'timeline' && (
         <Timeline mode="left">
-          {data ? data.map((el) => <Timeline.Item label={el.timeDelivery}>{el.address}</Timeline.Item>) : <Table />}
+          {data ? (
+            data.map((el, index) => (
+              <Timeline.Item key={index} label={el.timeDelivery}>
+                {el.address}
+              </Timeline.Item>
+            ))
+          ) : (
+            <Table />
+          )}
         </Timeline>
       )}
     </Card>

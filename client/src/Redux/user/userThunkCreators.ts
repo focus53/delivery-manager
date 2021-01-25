@@ -19,7 +19,7 @@ export const loginTC = (email: string, password: string) => async (dispatch: any
 };
 
 export const isLoginTC = () => async (dispatch: any) => {
-  const userData = JSON.parse(localStorage.getItem('userData') || '');
+  const userData = JSON.parse(<string>localStorage.getItem('userData'));
 
   if (userData) {
     const user = await userAPI.getStorages(userData.token);

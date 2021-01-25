@@ -144,7 +144,7 @@ const deliveryReducer = (state = initialState, action: { type: string; payload: 
       };
 
     case SELECTED_STORAGE:
-      return { ...state, selectedStorage: action.payload.key };
+      return { ...state, selectedStorage: action.payload.storage };
 
     default:
       return state;

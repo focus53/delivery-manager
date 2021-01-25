@@ -14,7 +14,7 @@ export const Addresses: React.FC<Props> = (props) => {
   const deliveries = date?.[props.storageArea] || [];
 
   return (
-    <p>
+    <>
       {deliveries.map((el, index) => {
         return (
           <div key={index}>
@@ -25,6 +25,6 @@ export const Addresses: React.FC<Props> = (props) => {
           </div>
         );
       })}
-    </p>
+    </>
   );
 };
