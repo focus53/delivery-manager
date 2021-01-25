@@ -1,3 +1,4 @@
+import React from 'react';
 import { Provider } from 'react-redux';
 import store from './Redux/redux-store';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,7 +7,7 @@ import Routes from './Routes';
 import { Divider, Layout } from 'antd';
 const { Header } = Layout;
 
-function App() {
+const App: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -19,6 +20,6 @@ function App() {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 export default App;

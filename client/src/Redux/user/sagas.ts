@@ -4,12 +4,11 @@ import { userAPI } from '../../api/api';
 import { IS_AUTHENTICATED, LOGIN, LOGIN_ERROR, LOGIN_SUCCESS } from './constants';
 import { warning } from '../../utils/warning';
 
-function* sagaWorker(action) {
+function* sagaWorker(action: { type: string; payload: any }) {
   try {
     const response = yield call(async () => {
       return await userAPI.getUser(action.payload.userEmail, action.payload.password);
     });
-
     localStorage.setItem(
       'userData',
       JSON.stringify({

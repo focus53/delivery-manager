@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { Input, Col, Row, Button, TimePicker, InputNumber } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
+import { DeliveryForm } from '../../../Redux/delivery/deliveryInterface';
 
 const { TextArea } = Input;
 
+type Props = {
+  start: string;
+  handleSubmit: (deliveryData: DeliveryForm) => void;
+};
+
 // Input form for address
-export const AddressForm = (props) => {
+export const AddressForm: React.FC<Props> = (props) => {
   const [street, setStreet] = useState('');
   const [streetNumber, setStreetNumber] = useState('');
   const [postCode, setPostCode] = useState('');
   const [timeDelivery, setTimeDelivery] = useState('');
-  const [load, setLoad] = useState('');
+  const [load, setLoad] = useState(0);
   const [description, setDescription] = useState('');
 
   return (
-    <form onSubmit={(e) => props.handleSubmit(e, street, streetNumber, postCode, timeDelivery, load, description)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        props.handleSubmit({ street, streetNumber, postCode, timeDelivery, load, description });
+      }}
+    >
       <Input.Group size="small">
         <Row gutter={[5, 10]}>
           <Col span={12}>
@@ -40,9 +51,9 @@ export const AddressForm = (props) => {
               min={0}
               max={100}
               formatter={(value) => `${value}%`}
-              parser={(value) => value.replace('%', '')}
+              parser={(value) => value?.replace('%', '') || ''}
               onChange={(val) => {
-                setLoad(val);
+                setLoad(Number(val) || 0);
               }}
             />
           </Col>

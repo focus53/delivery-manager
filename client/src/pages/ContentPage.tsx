@@ -4,18 +4,18 @@ import 'antd/dist/antd.css';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './styles.css';
 
-import Calendar from './../components/Calendar/Calendar';
-import AddressDataContainer from './../components/AddressData/AddressDataContainer';
+import Calendar from '../components/Calendar/Calendar';
+import AddressDataContainer from '../components/AddressData/AddressDataContainer';
 import Storages from '../components/Storages/Storages';
 import TableAddressData from '../components/TableAddressData/TableAddressData';
 import MenuComponent from '../components/MenuComponent/MenuComponent';
 
 const { Content, Sider } = Layout;
 
-const ContentPage = () => {
+const ContentPage: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
-  const onCollapse = (collapsed) => {
+  const onCollapse = (collapsed: boolean) => {
     setCollapsed(collapsed);
   };
 

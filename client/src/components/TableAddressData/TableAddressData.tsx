@@ -2,6 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { Table, Tag, Card, Timeline } from 'antd';
 import { useSelector } from 'react-redux';
 import { routingSelector, selectedDateSelector, selectedStorageSelector } from '../../Redux/delivery/deliverySelectors';
+import { Delivery } from '../../Redux/delivery/deliveryInterface';
+
+import { ColumnsType } from 'antd/es/table';
 
 const tabList = [
   {
@@ -14,7 +17,7 @@ const tabList = [
   },
 ];
 
-const columns = [
+const columns: ColumnsType<object> = [
   {
     title: '№',
     dataIndex: 'number',
@@ -59,7 +62,7 @@ const columns = [
   },
 ];
 
-const TableAddressData = () => {
+const TableAddressData: React.FC = () => {
   const [tab, setTab] = useState('table');
 
   const selectedStorage = useSelector(selectedStorageSelector);
@@ -67,7 +70,7 @@ const TableAddressData = () => {
   const selectedDate = useSelector(selectedDateSelector);
 
   const data = useMemo(() => {
-    let data = [];
+    let data: Delivery[] = [];
     const date = routing.find((el) => el.date === selectedDate);
 
     if (date !== undefined && date[selectedStorage]) {
@@ -81,12 +84,12 @@ const TableAddressData = () => {
 
   return (
     <Card
-      style={{ width: '100%' }}
-      title={selectedStorage}
-      tabList={tabList}
       onTabChange={(key) => {
         setTab(key);
       }}
+      style={{ width: '100%' }}
+      title={selectedStorage}
+      tabList={tabList}
     >
       {tab === 'table' && (data ? <Table columns={columns} dataSource={data} pagination={false} /> : <Table />)}
       {tab === 'timeline' && (

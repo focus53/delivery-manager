@@ -2,8 +2,10 @@ import React from 'react';
 import { Form, Input, Row, Col, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import { registerTC } from '../../Redux/user/userThunkCreators';
+import { FormItemProps } from 'antd/lib/form';
+import { Callbacks } from 'rc-field-form/lib/interface';
 
-const formItemLayout = {
+const formItemLayout: FormItemProps = {
   labelCol: {
     xs: {
       span: 24,
@@ -21,7 +23,8 @@ const formItemLayout = {
     },
   },
 };
-const tailFormItemLayout = {
+
+const tailFormItemLayout: FormItemProps = {
   wrapperCol: {
     xs: {
       span: 24,
@@ -34,11 +37,15 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = (props) => {
+type Props = {
+  isRegister: (register: boolean) => void;
+};
+
+const RegistrationForm: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
+  const onFinish: Callbacks<{ email: string; password: string }>['onFinish'] = (values) => {
     dispatch(registerTC(values.email, values.password));
   };
 

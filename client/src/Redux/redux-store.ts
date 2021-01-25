@@ -1,7 +1,7 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import { reducer as formReducer } from 'redux-form';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import deliveryReducer from './delivery/deliveryReducer';
 import userReducer from './user/userReducer';
@@ -12,11 +12,9 @@ const sagaMiddleware = createSagaMiddleware();
 let reducers = combineReducers({
   deliveryReducer,
   userReducer,
-  form: formReducer,
 });
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware, sagaMiddleware)));
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunkMiddleware, sagaMiddleware)));
 
 sagaMiddleware.run(sagaWatcher);
 export default store;

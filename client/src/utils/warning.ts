@@ -1,6 +1,6 @@
 import { message } from 'antd';
 
-export const warning = (errorText) => {
+export const warning = (errorText: string) => {
   message.warning({
     content: errorText,
     className: 'custom-class',
