@@ -10,14 +10,13 @@ const authMiddleware = (req, res, next) => {
     const token = req.headers.authorization;
 
     if (!token) {
-      return res.status(401).json({ message: 'Incorrect token' });
+      return res.status(401).json({ message: "Token doesn't exist :(" });
     }
+    req.user = jwt.verify(token.split(' ')[1], config.get('jwtSecret'));
 
-    const decodedToken = jwt.verify(token.split(' ')[1], config.get('jwtSecret'));
-    req.user = decodedToken;
     next();
   } catch (e) {
-    res.status(500).json(e);
+    res.status(401).json({ message: 'Incorrect token' });
   }
 };
 
