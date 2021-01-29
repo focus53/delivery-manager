@@ -8,7 +8,7 @@ import { userEmailSelector } from '../../Redux/user/userSelectors';
 
 const { SubMenu } = Menu;
 
-const MenuComponent = () => {
+const MenuComponent: React.FC = () => {
   const dispatch = useDispatch();
   const userEmail = useSelector(userEmailSelector);
   return (

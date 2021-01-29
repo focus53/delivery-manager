@@ -9,7 +9,7 @@ import { Layout } from 'antd';
 
 const { Content } = Layout;
 
-const AuthPage = () => {
+const AuthPage: React.FC = () => {
   const [register, setRegister] = useState(false);
 
   return (

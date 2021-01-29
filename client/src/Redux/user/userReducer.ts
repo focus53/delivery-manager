@@ -1,6 +1,7 @@
 import { IS_AUTHENTICATED, LOGIN, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT, ADD_STORAGE, DELETE_STORAGE } from './constants';
+import { UserInterface } from './userInterface';
 
-const initialState = {
+const initialState: UserInterface = {
   isAuthenticated: false,
   userId: null,
   userEmail: null,
@@ -8,9 +9,10 @@ const initialState = {
   userStorages: [],
   userAddressesStorages: [],
   errorMassage: null,
+  loginError: null,
 };
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action: { type: string; payload: any }) => {
   switch (action.type) {
     case IS_AUTHENTICATED:
       return { ...state, isAuthenticated: action.payload.isAuth };

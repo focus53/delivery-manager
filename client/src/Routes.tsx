@@ -7,7 +7,7 @@ import { isLoginTC } from './Redux/user/userThunkCreators';
 import ContentPage from './pages/ContentPage';
 import { isAuthenticatedSelector } from './Redux/user/userSelectors';
 
-const Routes = () => {
+const Routes: React.FC = () => {
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector(isAuthenticatedSelector);

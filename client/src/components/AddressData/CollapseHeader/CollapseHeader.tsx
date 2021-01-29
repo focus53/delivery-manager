@@ -1,7 +1,14 @@
 import React from 'react';
 import { Row, Col } from 'antd';
+import { Routing } from '../../../Redux/delivery/deliveryInterface';
 
-export const CollapseHeader = (props) => {
+type Props = {
+  routing: Routing[];
+  selectedDate: string;
+  storageArea: string;
+};
+
+export const CollapseHeader: React.FC<Props> = (props) => {
   const date = props.routing.find((el) => el.date === props.selectedDate);
   const deliveries = date?.[props.storageArea] || [];
 

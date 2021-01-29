@@ -10,21 +10,23 @@ import {
   ADD_NEW_ADDRESS_STORAGE,
   SELECTED_STORAGE,
 } from './constants';
+import { Delivery, DeliveryInterface } from './deliveryInterface';
+import { setAddressAC } from './deliveryActionsCreators';
 
-const initialState = {
+const initialState: DeliveryInterface = {
   baseURL: 'https://www.google.com/maps/dir/',
   selectedDate: '',
   routing: [],
   haveAddress: [],
   mapsLink: {},
-  selectedStorage: null,
+  selectedStorage: '',
 };
 
 // Reducer
-const deliveryReducer = (state = initialState, action) => {
+const deliveryReducer = (state = initialState, action: { type: string; payload: any }) => {
   switch (action.type) {
     case SELECTED_DATE:
-      return { ...state, selectedDate: action.payload };
+      return { ...state, selectedDate: action.payload.date };
 
     case ADD_NEW_ADDRESS:
       let newAddress = {
@@ -66,7 +68,7 @@ const deliveryReducer = (state = initialState, action) => {
                 ...obj,
                 [action.payload.storage]: [...obj[action.payload.storage]],
               };
-
+              // @ts-ignore
               newObj[action.payload.storage].splice(action.payload.index, 1);
               return newObj;
             }
@@ -74,8 +76,9 @@ const deliveryReducer = (state = initialState, action) => {
           }),
         ].filter((routingEl) => {
           let newRoutingEl = Object.keys(routingEl).filter((el) =>
-            action.payload.storages.some((strEl) => strEl === el)
+            action.payload.storages.some((strEl: string) => strEl === el)
           );
+          // @ts-ignore
           return newRoutingEl.some((storagesEl) => routingEl[storagesEl].length >= 1);
         }),
       };
@@ -86,8 +89,9 @@ const deliveryReducer = (state = initialState, action) => {
         routing: [
           ...state.routing.map((obj) => {
             let mapsLinks = {};
-            action.payload.storages.forEach((element, index) => {
+            action.payload.storages.forEach((element: string, index: number) => {
               if (obj[element]) {
+                // @ts-ignore
                 mapsLinks[element] =
                   state.baseURL +
                   action.payload.userAddressesStorages[index] +
@@ -107,7 +111,7 @@ const deliveryReducer = (state = initialState, action) => {
     case SET_ADDRESSES:
       return {
         ...state,
-        routing: action.payload.data.date.map((obj) => {
+        routing: action.payload.date.map((obj: setAddressAC) => {
           return obj;
         }),
       };
@@ -118,7 +122,7 @@ const deliveryReducer = (state = initialState, action) => {
         routing: [
           ...state.routing.map((obj) => {
             if (obj.date === action.payload.selectedDate) {
-              const index = action.payload.storages.findIndex((el) => el === action.payload.storage);
+              const index = action.payload.storages.findIndex((el: string) => el === action.payload.storage);
               let newLink =
                 state.baseURL +
                 action.payload.userAddressesStorages[index] +
@@ -140,7 +144,7 @@ const deliveryReducer = (state = initialState, action) => {
       };
 
     case SELECTED_STORAGE:
-      return { ...state, selectedStorage: action.payload.key };
+      return { ...state, selectedStorage: action.payload.storage };
 
     default:
       return state;

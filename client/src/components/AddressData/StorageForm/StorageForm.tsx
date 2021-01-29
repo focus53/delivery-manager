@@ -2,15 +2,24 @@ import React, { useState } from 'react';
 import { Input, Col, Row, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 
+type Props = {
+  handleSubmitNewStorage: (street: string, streetNumber: string, postCode: string, storageName: string) => void;
+};
+
 // Input form for storages
-export const StorageForm = (props) => {
+export const StorageForm: React.FC<Props> = (props) => {
   const [street, setStreet] = useState('');
   const [streetNumber, setStreetNumber] = useState('');
   const [postCode, setPostCode] = useState('');
   const [storageName, setStorageName] = useState('');
 
   return (
-    <form onSubmit={(e) => props.handleSubmitNewStorage(e, street, streetNumber, postCode, storageName)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        props.handleSubmitNewStorage(street, streetNumber, postCode, storageName);
+      }}
+    >
       <Input.Group size="small">
         <Row gutter={[5, 10]}>
           <Input placeholder="Name for storage" value={storageName} onChange={(e) => setStorageName(e.target.value)} />

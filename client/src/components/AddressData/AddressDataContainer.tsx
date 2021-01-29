@@ -9,17 +9,14 @@ import { CollapseHeader } from './CollapseHeader/CollapseHeader';
 import { Addresses } from './Addresses/Addresses';
 import { AddressForm } from './AddressForm/AddressForm';
 import { addNewAddressTC, deleteAddressTC, selectedStorageTC } from '../../Redux/delivery/deliveryThunkCreators';
-import {
-  defaultLinksSelector,
-  mapsLinkSelector,
-  routingSelector,
-  selectedDateSelector,
-} from '../../Redux/delivery/deliverySelectors';
+import { mapsLinkSelector, routingSelector, selectedDateSelector } from '../../Redux/delivery/deliverySelectors';
 import { userIdSelector, userStoragesSelector } from '../../Redux/user/userSelectors';
+import { Delivery, DeliveryForm } from '../../Redux/delivery/deliveryInterface';
+import { RadioChangeEvent } from 'antd/lib/radio/interface';
 
 const { Panel } = Collapse;
 
-const AddressDataContainer = () => {
+const AddressDataContainer: React.FC = () => {
   const dispatch = useDispatch();
 
   const [addMode, setAddMode] = useState(false);
@@ -27,27 +24,26 @@ const AddressDataContainer = () => {
 
   const selectedDate = useSelector(selectedDateSelector);
   const routing = useSelector(routingSelector);
-  const mapsLink = useSelector(mapsLinkSelector);
+  // const mapsLink = useSelector(mapsLinkSelector);
   const storages = useSelector(userStoragesSelector);
   // const defaultLinks = useSelector(defaultLinksSelector);
   const userId = useSelector(userIdSelector);
 
-  const callback = (key) => {
-    dispatch(selectedStorageTC(key));
+  const callback = (storages: string | string[]) => {
+    dispatch(selectedStorageTC(storages));
   };
 
-  const handleSubmit = (e, street, streetNumber, postCode, timeDelivery, load, description) => {
-    e.preventDefault();
+  const handleSubmit = ({ street, description, streetNumber, postCode, load, timeDelivery }: DeliveryForm) => {
     setAddMode(false);
     let newAddressToString = `${street} ${streetNumber}, ${postCode}`;
     dispatch(addNewAddressTC(newAddressToString, selectedDate, start, userId, timeDelivery, load, description));
   };
 
-  const deleteAddress = (index, storage, deliveryId) => {
+  const deleteAddress = (index: number, storage: string, deliveryId: number) => {
     dispatch(deleteAddressTC(index, selectedDate, storage, storages, deliveryId));
   };
 
-  const changeHandler = (e) => {
+  const changeHandler = (e: RadioChangeEvent) => {
     setStart(e.target.value);
   };
 
@@ -71,12 +67,7 @@ const AddressDataContainer = () => {
                     deleteAddress={deleteAddress}
                     storageArea={el}
                   />
-                  <MapsLink
-                    selectedDate={selectedDate}
-                    routing={routing}
-                    storageLinkMethod={`${el}`}
-                    defaultLink={mapsLink[el]}
-                  />
+                  <MapsLink key={index} selectedDate={selectedDate} routing={routing} storageLinkMethod={el} />
                 </Panel>
               ))}
             </Collapse>

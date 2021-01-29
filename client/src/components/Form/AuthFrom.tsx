@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { useDispatch } from 'react-redux';
 import { loginTC } from '../../Redux/user/userThunkCreators';
+import { Callbacks, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 
 const layout = {
   labelCol: {
@@ -18,14 +19,18 @@ const tailLayout = {
   },
 };
 
-const AuthForm = (props) => {
+type Props = {
+  isRegister: (isRegistered: boolean) => void;
+};
+
+const AuthForm: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
 
-  const onFinish = (values) => {
+  const onFinish: Callbacks<{ username: string; password: string }>['onFinish'] = (values) => {
     dispatch(loginTC(values.username, values.password));
   };
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed: Callbacks<{ username: string; password: string }>['onFinishFailed'] = (errorInfo) => {
     console.error('Failed:', errorInfo);
   };
 
